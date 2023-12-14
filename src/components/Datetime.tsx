@@ -29,7 +29,7 @@ export default function Datetime({
       <span className={`italic ${size === "sm" ? "text-sm" : "text-base"}`}>
         <FormattedDatetime datetime={datetime} />
         <span aria-hidden="true"> | </span>
-        <span>({readingTime})</span>
+        <span>{readingTime}</span>
       </span>
     </div>
   );
