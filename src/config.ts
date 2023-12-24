@@ -3,8 +3,8 @@ import type { Site, SocialObjects } from "./types";
 export const SITE: Site = {
   website: "https://ajoanny.github.io/", // replace this with your deployed domain
   author: "Arthur Joanny",
-  desc: "Mon blog",
-  title: "Arthur Joanny",
+  desc: "Blog sur le développement logiciel, les pratiques de dev et les pratiques agiles.",
+  title: "Software Insights",
   lightAndDarkMode: true,
   postPerPage: 3,
 };
