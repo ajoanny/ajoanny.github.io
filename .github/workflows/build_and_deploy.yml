@@ -1,7 +1,4 @@
 name: Deploy to GitHub Pages
-
-env:
-  PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.PUBLIC_GOOGLE_SITE_VERIFICATION }}
 on:
   # Trigger the workflow every time you push to the `main` branch
   # Using a different branch name? Replace `main` with your branch’s name
@@ -19,6 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: env
+        run: env
       - name: Checkout your repository using git
         uses: actions/checkout@v3
       - name: Install, build, and upload your site
