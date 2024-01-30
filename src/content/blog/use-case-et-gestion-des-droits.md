@@ -237,7 +237,7 @@ demandes ou besoins émergent à cause de choix techniques et faire exister ces 
 La gestion des droits n’a pas toujours vocation à exister dans les use case, tout comme la logique de présentation ne doit
 pas être présente dans les use-cases ou les objets métier.
 Le domaine métier du point de vue de l’architecture logicielle ce n’est pas l’ensemble de ce que demandent les experts
-métier. Ce sont l’ensemble des règles qui seront vrai peu importe le contexte d'exécution (Appli web, Script, CLI, …).
+métier. Ce sont l’ensemble des règles qui seront vraies peu importe le contexte d'exécution (Appli web, Script, CLI, …).
 
 Avant de décider de mettre du code dans un use-case il est intéressant de se demander si en utilisant le use-case dans
 un contexte différent le code devrait changer.
