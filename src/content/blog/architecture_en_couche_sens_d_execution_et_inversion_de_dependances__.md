@@ -5,7 +5,7 @@ featured: false
 draft: false
 tags:
   - design
-description: Comprendre un des pricipes au coeur des architecture en couches.'
+description: Comprendre un des pricipes au coeur des architecture en couches.
 ---
 
 Il existe plusieurs patterns d'architecture qui peuvent être intéressants en fonction des contextes. Chaque architecture
