@@ -112,8 +112,8 @@ Passons à l’utilisation de use-case dans notre script.
 ## Le script
 
 Je vais poser quelques hypothèses :
-L’application est déployée sur Scalingo et le CLI permet d’ouvrir une console Bash pour lancer notre script en étant authentifié.
-Il n’y a que les développeurs qui ont accès à l’application sur scalingo
+- L’application est déployée sur Scalingo et le CLI permet d’ouvrir une console Bash pour lancer notre script en étant authentifié.
+- Il n’y a que les développeurs qui ont accès à l’application sur scalingo
 
 Dans ce contexte, on peut laisser au CLI et à Scalingo la responsabilité de l'authentification, on s’enlève le besoin de
 vérifier et donner des droits en passant par l’application.
@@ -189,6 +189,11 @@ contextes. Le use-case reste indépendant des contextes dans lesquels il est app
 Notre product owner vient nous voir une dernière fois :
 
 > C’est bon on est prêt à ouvrir la feature aux utilisateurs et pas uniquement aux admins.
+
+Prenons l'hypothèse suivante : 
+- Pour réinitialiser son mot de passe, l'utilisateur va recevoir un mail avec un lien pour définir un nouveau mot de passe.
+- L’application va générer un token qui sera envoyé à l’application via un formulaire permettant de définir le nouveau mot de passe.
+- On part du principe que cette partie de l’application existe déjà et ce qui nous intéresse c’est le traitement de cette requête avec un nouveau mot de passe et un token.
 
 On va définir un controller qui va appeler notre use-case et qui va vérifier la validité du token.
 Une fois le mot de passe réinitialisé, le token sera supprimé.
