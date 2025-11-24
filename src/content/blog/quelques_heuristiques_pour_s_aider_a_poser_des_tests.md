@@ -12,6 +12,8 @@ description: Quelques conseils pour aider à poser des tests
 
 ## Pour qui ?
 
+projets partageaient les mêmes défauts : Les tests étaient incomplets, .
+
 Cet article a pour but de donner quelques questions à se poser pour s'aider à tester du code.
 L'idée est de partager les questions que je me pose quand j'écris des tests automatisés, seul ou
 en pair/mob programming. Ces questions me permettent de vérifier régulièrement si je construis
@@ -37,7 +39,7 @@ corriger ou les compléter. Pour faire tout ça il faut lire les tests et les co
 Il faut comprendre :
 
 - L'intention : Que cherche-t-on à montrer.
-- Comment : Pourquoi nous obtenons ces résultats.
+- Le context : Pourquoi nous obtenons ces résultats.
 
 ### L'intention
 
@@ -85,36 +87,84 @@ Voici un exemple un peu plus complexe avec le règles de calcul du score du bowl
 
 //Un test pour le spare un test pour le strike
 
-autoportant
-eviter le factorisation du sut/des valeur qui ont une incidence que le resultat du test
-EN quelques minutes/seconde je dois comprendre pourquoi le test a ce résultat
-bien nommé les variable
-moins de ligne ne veux pas dire mieux
-Attention au beforeAll beforeEach
+Plus les tests sont claire plus nous somme en capacité de savoir s'ils sont pertient. Plus les tests vont tester de choses
+plus il va devenir difficile de savoir si tout est testé si certains cas ont été oublié. Mon avis est qu'avoir des petits tests permet de
+plus facilement de savoir ce qui est couvert par un test ou pas. Plus le test est gros et couvre de cas différents plus on
+a de chance de ne pas couvrir tous les comportements du code.
 
-Facilité à faire évoluer les tests, a détecter corriger les tests, a detecter les cas manquant.
+### Le context
 
-Pas de condition dans les assertions, pas trop d'assertions différentes
+Par contexte je parle de tous les éléments qui vont permettre au tests d'obtenir le résultat attendu. Cela englobe les paramètres,
+d'entre de fonctions ou méthode, dans le cadre de test d'integration avec une base de données les données injecté dans la
+base de donnée avant le test. En gros tout les éléments ayant une influance sur le vérification faite par le test.
+
+L'interêt et de comprendre rapidment pourquoi le test à ce résultat sans avoir à chercher dans tout le fichier où sont instanciées
+les différentes structures de données utilisées dans le test. L'idée est de mettre en évidence ce qui a une influance direct sur
+le résultat du test et de cacher le reste. En faisant ça on se facilite la lecture du test, quand on lit le test on ne voit
+que les éléments pertients qui vont nous permettre de changer le résultat attendu.
+
+Pour faire ça il y a plusieurs choses que l'on peut faire :
+
+#### Donner du sens aux variables
+
+//Exemple : User minor majeur
+
+#### Ne pas trop factoriser le context des tests
+
+// beforeEach exemple
+La factorisation peut être intéressante mais attention à ne pas complètement perdre le contexte du test,
+
+#### Utiliser des builders avec des valeurs par défaut pour construire les données de tests
+
+// builder qui masque le valeur inutile
+
+## Combien de temps j'ai pris pour écrire ce test ? / Facilité à tester
+
+En prenant en compte mon expérience personnel, les projets auxquels j'ai contribués où tester était long et complexe partageait
+une caractéristique : les suites de tests n'étaient pas complètes. Il peut y avoir beaucoup de raison qui rendent l'écrite
+des tests difficile et je vous propose d'aborder celle que j'observe régulièrement.
+
+### Les tests trop ambitieux
+
+Il m'est arrivé plusieurs fois de partir sur des cas de tests qui me semblait simple, mais qui ne l'était pas tant que ça.
+
+### Le design du code
+
+- Dependances
+
+### L'infrastructure
+
+- Test qui embarque top de composants DB/Serveur/Cache/FS/Reseau ?
+- Setup long
+-
 
 ## En plus de celui la combien de test je dois changer si je fait évoluer le comportement du code ? / Eviter la duplication de tests
 
-INvestissment sur le longterm, éviter introduire des régression mettre en évidence le comportement.
-Avoir trop de test à changer c'est rendre le code rigide, plus du code est difficile à faire évoluer moins il évolue.
+Lorsque que l'écriture de tests fait partie des pratiques d'équipe, on se retrouve généralement avec une suite de tests conséquente.
+L'inconveniant des tests est qu'en cas de changement il faut les corriger. Parfois malheureusement, on se rend compte lors
+d'une petite évolution qu'il faut changer un grand nombre de tests. Ces situations ont tendance à décourager l'écriture
+des tests. On veut que les tests protègent des régressions sans empêcher les évolutions. Avoir beaucoup de tests à changer
+en cas de changement de comportement peut être assez décourageant. Dans ce cas de figure les tests rendent rigide l'implémentation
+en complexifiant les évolutions. Plus le code est difficile à faire évoluer moins il évolue.
+Avoir beaucoup de test ce n'est pas avoir de bon tests, il faut avoir les tests qui permettent de sentir protégé des
+régressions.
 Avoir beaucoup de test != d'avoir de bon tests
 Avoir les tests qui donne confiance
-Quand plusieur niveau de tests, éviter les assertions redondante
+Quand plusieurs niveaux de tests, éviter les assertions redondante
 eviter les assertions trop technique.
 
 => mene a l'abandon des tests ou a faire le minimum de test parce que effort trop grand pour la plus value.
 
-## Combien de temps j'ai pris pour écrire ce test ? / Facilité à tester
+## Conclusion
 
-Tester doit être simple, faire le setup doit être facile,
-Tester une classe une fonction ne doit pas demander de démarer toutes l'application (EéE/ Integ), la majorité des tests
+//Conclusion
+La difficulté à écrire un test est pour moi un des feedbacks les plus intéressants pour les tests. Je pense que les tests
+automatisés sont un excellent outil pour construire des applications qui fonctionnent et éviter d'introduire des régressions.
+xTester une classe une fonction ne doit pas demander de démarer toutes l'application (EéE/ Integ), la majorité des tests
 ne doit pas le demandé en tout cas. Plus la pratique sera simple plus l'habitude de tester sera facile à prendre.
 S'outiller builder etc.
 
-## Conclusion
+INvestissment sur le longterm, éviter introduire des régression mettre en évidence le comportement.
 
 - PLus les test seront facile à comprendre, écrire et faire évoluer plus vous en écrirez.
 - Le pair / mob bon outil pour se faire challenger et s'ameliorer quand fait correctement
@@ -127,3 +177,13 @@ Comment tester plein de possibilité avec leur avantages et inconveniant
 Classique Pyramide
 Diaman
 cadrant
+
+Plus écrire des tests est simple plus les équipes écrivait de test. Il n'y a pas que la quantité des tests qui s'ameliorait,
+mais aussi leur pertinence. Les suites de tests étaient plus complète et étaient complétée/corrigée plus facilement et
+régulièrement.
+
+Une fois ce constat fait, une des questions que je me pose systématique quand j'écris des tests : Combien de temps j'ai mis
+pour écrire ce test. L'idée n'est pas de définir une durée maximale, mais d'avoir un ressenti sur le temps que j'ai
+consacré à écrire mes tests. Dans l'idée, j'essaie au doigt mouillé d'avoir un rapport équilibré entre le temps
+que je passe à écrire les implémentations et le temps passé à tester.
+C'est
