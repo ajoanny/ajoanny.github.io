@@ -65,7 +65,7 @@ Ma première approche a été de générer du code en donnant assez peu d'indica
 ### Tests de Caractérisation
 
 Les tests de caractérisation sont des tests appliqués à du code qui n’a pas encore été testé. Le principe est simple : écrire
-un test qui capture le comportement existant du code, sans se soucier de sa validité. On construit une suite de tests
+un test qui capture le comportement existant du code. On construit une suite de tests
 permettant de s’assurer que lors d’un refactoring le comportement reste inchangé.
 
 Le code et mes expérimentations sont disponibles sur la branche [tests/mutation](https://github.com/ajoanny/gilded-rose-ia/tree/tests/mutation).
@@ -1063,7 +1063,8 @@ switch (this.items[i].name) {
   case 'Backstage passes to a TAFKAL80ETC concert':
     this.increaseQualityIfBelowMax(this.items[i]);
     if (this.items[i].sellIn < 11) {
-      this.increaseQualityIfBelowMax(this.items[i]);
+      this.increaseQualityIfBelowMax(this.items[i]);L'approche est intéresssante car elle
+les
     }
     if (this.items[i].sellIn < 6) {
       this.increaseQualityIfBelowMax(this.items[i]);
@@ -1391,7 +1392,8 @@ if (this.items[i].name.includes("Conjured")) {
     this.decreaseQualityIfAboveMin(this.items[i]);
     this.decreaseQualityIfAboveMin(this.items[i]);
   }
-}
+}L'approche est intéresssante car elle
+les
 ```
 
 L'implémentation fait bien passer les tests, mais encore une fois le code est trop complet par rapport au test que j'ai
@@ -1668,7 +1670,8 @@ En revanche, la suppression de code par l’IA m’a surpris : ce n’est pas un
 Mon premier point concerne l’utilisation du terminal : une meilleure intégration dans l’IDE serait réellement
 bénéfique. Pour l’instant, j’ai toujours le sentiment d’être plus efficace quand j'exploite bien mon IDE. Il me semble
 que certains IDE intègrent mieux l’IA, mais je n’ai pas encore eu l’occasion de les tester. Cela dit, l’IA s’est révélée
-intéressante sur certaines tâches, notamment la génération des tests de caractérisation.
+intéressante sur certaines tâches, notamment la génération des tests de caractérisation, même si l'IA n'a pas généré une suite
+de tests complète.
 N’étant pas expert dans l’utilisation d’un LLM via des prompts, je n’ai pas toujours obtenu les résultats souhaités à la
 première tentative. Je dois admettre que, même avec des prompts imparfaits, il est possible d’obtenir des résultats
 intéressants. Le fait de devoir adapter mon niveau de langage entre le code et le LLM m’a semblé assez fatigant.
@@ -1686,9 +1689,10 @@ Dernier point : la tarification. Avec IntelliJ, utiliser l'IA consomme des créd
 j'ai utilisé 15 crédits. Le plan AI Pro mensuel coûte 10€, et pour recharger un crédit coûte 1€, ce qui me revient à 15€.
 Pour quelques jours de travail sur kata, cela me semble relativement cher, mais je tiens à préciser que je n'ai pas du tout
 optimisé mon usage de l’IA pour cet article.
-Après cet exercice, je n’ai pas encore d’avis tranché sur ce sujet. Je ne pense pas avoir trouvé la meilleure manière d’exploiter
-pleinement l’IA. Je vais prendre le temps de la tester sur des cas plus complexes afin de trouver une approche qui me
-conviendra davantage.
+Après cet exercice, je n’ai pas encore d’avis tranché sur ce sujet, mais je pense que pour l'intervention humaine et les
+revues de code restent indispensables. Une approche Ship, Show, Ask, avec du code généré me semble risqué pour la stabilité d'une
+application. Je ne pense pas avoir trouvé la meilleure manière d’exploiter pleinement l’IA. Je vais prendre le temps de
+la tester sur des cas plus complexes afin de trouver une approche qui me conviendra davantage.
 
 ## Référence
 
