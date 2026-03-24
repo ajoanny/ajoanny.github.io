@@ -1,5 +1,5 @@
 ---
-title: Développer, tester et refactorer avec l'IA
+title: Tester, implémenter et refactorer avec l'IA
 pubDatetime: 2026-03-24
 featured: false
 draft: false
@@ -1716,7 +1716,7 @@ j'ai utilisé 15 crédits. Le plan AI Pro mensuel coûte 10€, et pour recharge
 Pour quelques jours de travail sur un petit kata, cela me semble relativement cher, mais je tiens à préciser que je n'ai pas du tout
 optimisé mon usage de l’IA pour cet article.
 
-Après cet exercice, je me questionne toujours sur ce sujet, mais je pense que l'intervention humaine et les
+Après cet exercice, je me questionne toujours sur ce sujet et je pense que l'intervention humaine et les
 revues de code restent indispensables. Une approche Ship, Show, Ask, avec du code généré me semble risqué pour la stabilité d'une
 application. Je ne pense pas avoir trouvé la meilleure manière d’exploiter pleinement l’IA. Tout ça me pousse à penser que la maturité
 de ces outils ne me permet pas de les intégrer complètement à mes pratiques de développement. Je vais prendre le temps de
