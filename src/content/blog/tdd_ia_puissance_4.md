@@ -171,7 +171,7 @@ que le test ne passe pas, mais pour les mauvaises raisons. C'est une erreur de c
 ne passe pas, mais ne donne aucun retour sur le comportement du code. Avec la configuration actuelle, l'agent ne vérifie
 pas les raisons de l'échec. Si détecter une erreur de compilation est assez facile, les autres raisons d'échecs sont plus subtiles — mauvais tests,
 régressions, etc. La question peut se poser aussi pour les tests qui passent. Est-ce de la duplication
-de test, est-ce que les implémentations précédentes couvrent plus que ce qui était nécessaire ? L'interprétation des résultats
+de test ou est-ce que les implémentations précédentes couvrent plus que ce qui était nécessaire ? L'interprétation des résultats
 des tests est donc un point important, qui conditionne le choix des tests suivants.
 
 L'importance de ce point dans la pratique du TDD pousse à garder la responsabilité de l'interprétation des résultats des tests.
@@ -374,7 +374,7 @@ Si le TDD repose en partie sur des implémentations volontairement incomplètes,
 de manière progressive. De leur côté, les LLMs me semblent orientés vers la production de code fonctionnel et relativement
 complet. Mon hypothèse est que les corpus utilisés pour entraîner les modèles contiennent essentiellement du code fonctionnel
 et terminé - Hypothèse qui me paraît réaliste au regard de l'évolution de leurs résultats ces derniers mois. Ces entraînements
-ont possiblement entraîné un biais, rendant la production de code partielle moins évidente. Cette hypothèse interroge sur
+ont possiblement entraîné un biais, rendant la production de code partiel moins évidente. Cette hypothèse interroge sur
 l'utilité d'un modèle généraliste pour l'exercice auquel je me livre. La question étant est-ce qu'un entraînement spécifique permettrait de
 faire de petites itérations pour la génération du code plus facilement.
 
