@@ -1,7 +1,7 @@
 ---
 title: TDD, IA Agentique et Puissance 4
-pubDatetime: 2026-04-27
-featured: false
+pubDatetime: 2026-04-28
+featured: true
 draft: false
 tags:
   - TDD
@@ -372,8 +372,8 @@ La réponse de l'agent est fausse. Il est facile de le démontrer en écrivant u
 Cette interaction soulève une question importante sur les LLMs et leur entraînement.
 Si le TDD repose en partie sur des implémentations volontairement incomplètes, voire “fausses”, afin d’introduire la complexité
 de manière progressive. De leur côté, les LLMs me semblent orientés vers la production de code fonctionnel et relativement
-complet. Mon hypothèse est que les corpus utilisés pour entrainer les modèles contiennent essentiellement du code fonctionnel
-et terminé - Hypothèse qui me parait réaliste au regard de l'évolution de leurs résultats ces derniers mois. Ces entraînements
+complet. Mon hypothèse est que les corpus utilisés pour entraîner les modèles contiennent essentiellement du code fonctionnel
+et terminé - Hypothèse qui me paraît réaliste au regard de l'évolution de leurs résultats ces derniers mois. Ces entraînements
 ont possiblement entraîné un biais, rendant la production de code partielle moins évidente. Cette hypothèse interroge sur
 l'utilité d'un modèle généraliste pour l'exercice auquel je me livre. La question étant est-ce qu'un entraînement spécifique permettrait de
 faire de petites itérations pour la génération du code plus facilement.
@@ -465,6 +465,8 @@ du TDD demande un effort plus important qu'en faisant du TDD sans agent.
 Pour essayer d'améliorer l'expérience, je décide de reprendre le kata depuis le début en utilisant un agent différent.
 
 ## Agent V2
+
+[La branche sur Github](https://github.com/ajoanny/four_in_a_row_ia/tree/main)
 
 ```prompt
 You are a Kotlin TDD expert. You strictly follow the Red-Green-Refactor cycle.
@@ -934,7 +936,7 @@ reste souvent fastidieuse, elle repose sur matching du langage naturel vers du c
 un investissement conséquent lors des premiers tests. Dans ce contexte, l’efficacité des LLM dans le traitement
 du langage naturel soulève une question intéressante : peuvent-ils aider à l’automatisation de ces tests sur nos projets ?
 
-Deux articles m'ont aidé à mettre des mots sur certaines de mes observations. Dans [Test-Driven Development with Agentic AI](https://coding-is-like-cooking.info/2026/03/test-driven-development-with-agentic-ai/),
+Sur la question du TDD et de l'IA agentique, deux articles m'ont aidé à mettre des mots sur certaines de mes observations. Dans [Test-Driven Development with Agentic AI](https://coding-is-like-cooking.info/2026/03/test-driven-development-with-agentic-ai/),
 Emily Bache dresse un portrait plus large de ce que font aujourd'hui les praticiens TDD avec l'IA agentique qui apporte
 une mise en perspective intéressante de ma propre expérience.
 Ian Cooper, dans [Coding Is Dead, Long Live Programming](https://ian-cooper.writeas.com/coding-is-dead-long-live-programming),
