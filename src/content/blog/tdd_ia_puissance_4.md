@@ -92,7 +92,7 @@ Uniquement quand l'utilisateur valide le test :
 **Étape 3 -- Refactor (si demandé)**
 
 1. Tu attends les suggestions de refactoring
-2. Tu t'assures que les tests still passent toujours après refactoring
+2. Tu t'assures que les tests passent toujours après refactoring
 
 ## Règles absolues
 
