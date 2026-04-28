@@ -166,7 +166,7 @@ _Prompt:_
 ```
 
 Le test est généré et échoue, ce qui correspond à l’étape RED du cycle TDD. L'agent m'informe que le test ne passe pas et
-me propose de passer à l'étape suivante : l'implémentation. En regardant plus attentivement, je constate
+me propose de passer à l'étape d'implémentation. En regardant plus attentivement, je constate
 que le test ne passe pas, mais pour les mauvaises raisons. C'est une erreur de compilation qui empêche le test de passer. Le test
 ne passe pas, mais ne donne aucun retour sur le comportement du code. Avec la configuration actuelle, l'agent ne vérifie
 pas les raisons de l'échec. Si détecter une erreur de compilation est assez facile, les autres raisons d'échecs sont plus subtiles — mauvais tests,
@@ -174,7 +174,8 @@ régressions, etc. La question peut se poser aussi pour les tests qui passent. E
 de test, est-ce que les implémentations précédentes couvrent plus que ce qui était nécessaire ? L'interprétation des résultats
 des tests est donc un point important, qui conditionne le choix des tests suivants.
 
-L'importance de ce point dans la pratique du TDD pousse à garder la responsabilité de l'interprétation des résultats des tests. En cas d'erreur, la suite de tests perd en fiabilité.
+L'importance de ce point dans la pratique du TDD pousse à garder la responsabilité de l'interprétation des résultats des tests.
+En cas d'erreur, la suite de tests perd en fiabilité.
 
 [Github: Commit](https://github.com/ajoanny/four_in_a_row_ia/commit/9bf319081b5c7bbdb3a5152e6ac42b44ad38b9b0)
 
@@ -206,7 +207,7 @@ _Prompt:_
 
 Lors de la génération de ce test, je n'ai pas précisé l'indice de la colonne à utiliser. Dans ce contexte, l'agent a pris
 une décision de design : Les colonnes sont indexées à partir de 1. Ce n'est pas la pertinence du choix qui importe dans ce
-cas, par contre, il pose les bases de design. En prenant cette décision l'agent m'a enlevé la responsabilité de faire ce
+cas, par contre, ce choix pose les bases de design. En prenant cette décision l'agent m'a enlevé la responsabilité de faire ce
 choix. La configuration actuelle de l'agent ne définit pas de contraintes claires sur ce point, ce qui rend
 ce comportement plus probable. Sans relecture attentive, ce type de choix peut facilement passer inaperçu, alors qu’il impacte
 l’ensemble du système.
@@ -252,7 +253,7 @@ Lors de la première tentative de génération d'implémentation l’agent produ
 permettait d'ajouter des jetons dans toute la grille et de les empiler. Garder cette implémentation ne permettrait pas de
 faire du TDD, avoir une implémentation complète dès le premier test fait perdre tous les bénéfices du TDD.
 
-Il est intéressant de noter que la configuration définit un persona connaissant le TDD, qu'il y a des gardes pour éviter
+Il est intéressant de noter que la configuration définit un persona connaissant le TDD, qu'il y a des "gardes" pour éviter
 d'avoir des implémentations complètes trop tôt.
 
 ```prompt
@@ -313,7 +314,7 @@ _Prompt:_
 <!-- prettier-ignore -->
 > implement
 
-En utilisant cette instruction, je me retrouve encore une fois avec une implémentation complète de la classe Grid. En repassant
+En utilisant cette instruction, je me retrouve encore une fois avec une implémentation complète de la classe `Grid`. En repassant
 sur la configuration de l'agent, je constate que les instructions que j'utilise ne correspondent pas forcément aux étapes du
 workflow que j'ai défini. Mon workflow parle de Red, Green et Refactor et pour l'instant, j'ai utilisé "test", "add test" et "implement"
 pour générer tests et implémentations. Si pour les tests ces instructions ont suffi, pour obtenir une implémentation simple
@@ -358,7 +359,7 @@ class Grid {
 ```
 
 Cette fois, je n'ai pas une implémentation complète, mais toujours trop complète par rapport à mes tests. L'agent m'explique
-pourquoi cette implémentation est minimal.
+pourquoi cette implémentation est minimale.
 
 ```prompt
 **Pourquoi c'est minimal :**
@@ -383,7 +384,7 @@ car il n’existe pas de définition unique de l’implémentation la plus simpl
 
 On pourrait envisager l'intégration d'un certain nombre d'indicateurs et d'outils pour guider les LLMs comme la complexité
 cyclomatique, la couverture des tests, des tests de mutation, un framework de tests d'architecture. D'expérience, ces outils sont utiles pour
-indiquer des parties de code ne respectant pas certaines règles de conception, mais moins fiable pour de déterminer de la
+indiquer des parties de code ne respectant pas certaines règles de conception, mais moins fiable pour déterminer la
 "qualité" du code. Par exemple, une suite de tests permettant du refactoring — complète et indépendante des détails d'implémentation —
 en sécurité aura une bonne couverture de tests, mais la réciproque n'est pas vraie. Je pense que l'intégration de ce type
 d'outils peut aider, mais n'enlève pas la nécessité d'avoir une validation humaine.
@@ -412,7 +413,7 @@ class Grid {
 }
 ```
 
-Cette fois, j'obtiens bien une implémentation qui répond à mes contraintes : Faire uniquement passer le test existant. Je constate
+Cette fois, j'obtiens bien une implémentation permettant de faire uniquement passer le test existant. Je constate
 les limites de mon workflow, guider l'agent quand il faut corriger une erreur me donne le sentiment de sortir du workflow
 que j'ai défini.
 
@@ -445,7 +446,7 @@ les modifications. Cette présentation a beaucoup facilité la relecture des mod
 +    grid.play(Token.R, Column.ONE)
 ```
 
-Ces refactoring très simpliste se sont bien passés et n'ont pas été le sujet de friction particulière.
+Ces refactoring très simpliste se sont bien passés et n'ont pas été le sujet de frictions particulières.
 
 ### Résultats
 
@@ -563,7 +564,7 @@ entre le TDD et les LLMs.
 Pour contextualiser, c'est en travaillant sur la classe `Analyzer` — dont la responsabilité est de vérifier la
 présence de quatre jetons consécutifs de la même couleur, que ce soit en ligne, en colonnes ou en diagonale — que j'ai rencontré
 mes premières difficultés pour générer des tests. Un des objectifs du kata est de travailler la lisibilité des tests. L’approche
-que j’ai retenue consiste à utiliser une représentation textuelle de la grille, puis à construire celle-ci à partir de cette représentation.
+que j’ai retenue consiste à utiliser une représentation textuelle de la grille, puis de construire celle-ci à partir de cette représentation.
 
 ```kotlin
 val grid = Grid()
@@ -665,11 +666,11 @@ Y Y Y R . . .   ← R6
 ```
 
 Une autre problématique est la cohérence dans l'instanciation des classes ayant des dépendances. Une partie du kata consiste
-à créer une classe Game dépendant de la classe Grid pour jouer les coups et de la classe Analyzer pour vérifier les conditions de victoire, cette
-dernière elle-même dépendante de la class Grid. Les choix de designs sont discutables, mais ont pour but permettre une utilisation
+à créer une classe `Game` dépendant de la classe `Grid` pour jouer les coups et de la classe `Analyzer` pour vérifier les conditions de victoire, cette
+dernière elle-même dépendante de la classe `Grid`. Les choix de designs sont discutables, mais ont pour but permettre une utilisation
 de doublures des tests.
 
-Dans la majorité des tests, les constructeurs des classes Game et Analyzer ont été appelé avec des instances distinctes de la classe Grid.
+Dans la majorité des tests, les constructeurs des classes `Game` et `Analyzer` ont été appelés avec des instances distinctes de la classe `Grid`.
 
 ```kotlin
 @Test
@@ -691,7 +692,7 @@ fun `grid play is called with C1 and Y when Y plays on column 1`() {
 ```
 
 Dans notre cas, ces incohérences ne font pas échouer les tests, mais les rendent moins clairs et plus fragiles, ce qui
-nuit à leur maintenabilité. La mise en place des tests est censée refléter celle d’un contexte de production, avec des
+nuit à leur maintenabilité. La mise en place des tests doit refléter celle d’un contexte de production, avec des
 instanciations correctes.
 
 Ces défauts dans les tests permettent d'aborder la question du design du code. Le TDD fait des tests les premiers consommateurs
@@ -738,14 +739,15 @@ fun `when status returns ONGOING then Y it plays each turn with column from inpu
 
 Cette dilution du retour d’information renforce l’importance de l’étape de relecture, qui devient alors le principal moment
 où ce type de feedback peut émerger. On peut se demander si écrire les instructions pour générer le test est assez complexe
-pour offrir une opportunité de retour d'information. Personnellement dans ce context, je dois avouer que ça n'a pas été le cas.
-Je pense que c'est un aspect de la pratique qui gagnerait à être éprouvé dans un contexte plus proche de conditions réelles. Voyons maintenant si ce protocole formel a eu davantage d'impact sur la phase d'implémentation.
+pour offrir une opportunité de retour d'information. Personnellement dans ce contexte, je dois avouer que ça n'a pas été le cas.
+Je pense que c'est un aspect de la pratique qui gagnerait à être éprouvé dans un contexte plus proche de conditions réelles.
+Voyons maintenant si ce protocole formel a eu davantage d'impact sur la phase d'implémentation.
 
 ### Implémentation
 
 Le premier constat est que, sur la première partie du kata, cette nouvelle version de l'agent mettant l'accent sur les implémentations
 minimales ainsi que la définition d'un protocole formel pour interagir avec l'agent n'est pas la source d'amélioration notable sur
-la génération de code. Pour l'implémentation de la fonction `play` de la Grid, j'ai rencontré les mêmes difficultés à générer
+la génération de code. Pour l'implémentation de la fonction `play` de la `Grid`, j'ai rencontré les mêmes difficultés à générer
 des implémentations minimales.
 C'est un point particulièrement important à rappeler : clarifier le contexte et mettre l'accent sur certaines actions en définissant
 des "contraintes" ne garantit pas d'obtenir le comportement attendu. TDD ou non, c'est un aspect important à comprendre et à
@@ -768,8 +770,8 @@ défini dans la configuration de l'agent. Mon idée était d'être plus directif
 ```
 
 Ce changement d’approche a considérablement amélioré la capacité de l’agent à générer des implémentations minimales. À
-titre de comparaison pour toute la suite du kata comprenant les classes Analyzer,
-Game et FourInARow — boucle principale pour le jeu — je n'ai la même quantité d'implémentations que lors de l'implémentation
+titre de comparaison pour toute la suite du kata comprenant les classes `Analyzer`,
+`Game` et `FourInARow` — boucle principale pour le jeu — j'ai eu la même quantité de corrections à faire que lors de l'implémentation
 de la méthode `play`,. Même sans améliorer les résultats, cette version de l'agent réduit beaucoup les frictions avec la génération de code, ce qui fait de cette version
 une piste intéressante d'amélioration de l'expérience développeur.
 
@@ -796,11 +798,11 @@ transparentes avec des quotas par messages, requêtes, etc.
 Le fait est que l'on ne maitrise pas ce qui est envoyé aux LLMs via les agents. Pour améliorer la génération de code, on
 va utiliser une configuration plus ou moins grande, l'agent va lire le code source — tests, implémentations, ADR, etc. —
 le rapport des tests qui peut être plus ou moins verbeux, l'historique des messages. Toutes ces sources d'information
-vont définir un context qui est construit dynamiquement, qui va être découpé en token et
+vont définir un contexte qui est construit dynamiquement, qui va être découpé en tokens et
 envoyé au LLM. Ce sont ces tokens qui sont utilisés pour définir la consommation des quotas.
 
 Ce fonctionnement implique d'avoir un coût proportionnel au contexte pour chaque échange avec l'agent. Le TDD reposant en
-partie sur des courtes itérations pour un feedback rapide multiplie ces échanges. Multiplier les étapes, c'est multiplier
+partie sur des courtes itérations pour un feedback rapide, multiplie ces échanges. Multiplier les étapes, c'est multiplier
 les interactions avec l'agent. Ce modèle économique introduit une tension dans la pratique du TDD pouvant pousser à allonger
 la taille des itérations ce qui augmente le temps du retour d'information.
 
@@ -816,7 +818,7 @@ Dans un contexte moins familier, ne pas observer cette duplication peut limiter 
 des refactorings intéressants. Cette problématique est vraie, que ce soit avec l'utilisation d'IA générative ou non.
 
 Les refactorings autonomes de l'agent ont donné un découpage spécifique dans le code. La question que je me pose est si
-l'agent en appliquant des refactoring n'avaient créé un contexte l'incitant à continuer à produire une implémentation
+l'agent en appliquant ces refactoring a créé un contexte l'incitant à continuer à produire une implémentation
 respectant les patterns qu'il avait lui-même introduits avant.
 
 ```kotlin
