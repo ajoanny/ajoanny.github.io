@@ -711,8 +711,9 @@ est un code smell naïf, mais particulièrement efficace, on peut comprendre que
 
 C'est d'autant plus vrai pour les tests utilisant des doublures,
 qui mettent en évidence les interactions entre les différents éléments composant le design. L'idée, de manière un peu simpliste,
-est que plus il y aura d'éléments et d'interactions, plus la mise en place du test sera difficile, et plus le test
-aura tendance à créer du couplage avec le design en le figeant.
+est que plus, il y aura d'éléments et d'interactions, plus la mise en place du test sera difficile, et plus le test
+aura tendance à créer du couplage avec le design en le figeant. Je laisse les plus courageux tenter de comprendre le test
+suivant.
 
 ```prompt
      GO_GREEN use loop to play until status does not return ONGOING
@@ -774,7 +775,7 @@ défini dans la configuration de l'agent. Mon idée était d'être plus directif
 Ce changement d’approche a considérablement amélioré la capacité de l’agent à générer des implémentations minimales. À
 titre de comparaison pour toute la suite du kata comprenant les classes `Analyzer`,
 `Game` et `FourInARow` — boucle principale pour le jeu — j'ai eu la même quantité de corrections à faire que lors de l'implémentation
-de la méthode `play`,. Même sans améliorer les résultats, cette version de l'agent réduit beaucoup les frictions avec la génération de code, ce qui fait de cette version
+de la méthode `play`. Même sans améliorer les résultats, cette version de l'agent réduit beaucoup les frictions avec la génération de code, ce qui fait de cette version
 une piste intéressante d'amélioration de l'expérience développeur.
 
 Malgré cette amélioration l'agent est quand même sorti du cadre pendant le kata. La configuration tente de pousser l'agent
@@ -787,9 +788,10 @@ amené à me proposer de copier les modifications dans le fichier moi-même. Ces
 qui pilotent les actions de l'agent donnent un comportement différent de celui attendu.
 
 Ces comportements m'ont fait réfléchir sur notre façon d'apporter des solutions aux limites des LLMs. Aujourd'hui, j'ai l'impression peut-être à tort qu'une partie
-de ces solutions cherche à enrichir le contexte ou à outiller le LLMs pour mieux guider leurs actions. La question que je me pose, c'est
-si cet enrichissement ne peut pas aussi être la source de mauvaises interprétations et donc de résultats erronés. Est-ce que
-ces approches dans une certaine mesure n'alimentent pas les problèmes de dégradation du contexte des LLMs ?
+de ces solutions cherche à enrichir le contexte ou à outiller le LLMs pour mieux guider leurs actions. La question que je me pose est si l’agent,
+en appliquant ces refactoring, a créé un contexte l’incitant à continuer à produire une implémentation respectant les patterns
+qu’il avait lui-même introduits avant. Ici, il a choisi de séparer la méthode `winner` en `horizontal` et `vertical` Est-ce que ces approches
+dans une certaine mesure n'alimentent pas les problèmes de dégradation du contexte des LLMs ?
 
 Cet enrichissement du contexte a d'ailleurs un coût direct, que j'ai fini par rencontrer concrètement en atteignant les quotas d'utilisation journaliers de l'agent. En toute
 transparence, mes usages ne se limitaient pas à ce kata, mais cette limite soulève des questions intéressantes sur la tension entre le modèle économique des LLMs et la pratique du TDD. Pour commencer, même si parfois la
@@ -815,7 +817,7 @@ refactoring, mais plus sur l'expérience développeur.
 
 Une observation intéressante, c'est que lors de l'étape d'implémentation, l'agent a parfois fait du refactoring. Ces refactorings
 ont eu lieu assez tôt et sans sollicitation de ma part. Généralement, je trouve intéressant de laisser apparaître la duplication
-avant de faire des refactorings. Dans ce contexte, l'agent n'a pas laissé le temps à cette duplication ressortir.
+avant de faire des refactorings. Dans ce contexte, l'agent n'a pas laissé le temps à cette duplication de ressortir.
 Dans un contexte moins familier, ne pas observer cette duplication peut limiter notre capacité à trouver
 des refactorings intéressants. Cette problématique est vraie, que ce soit avec l'utilisation d'IA générative ou non.
 
