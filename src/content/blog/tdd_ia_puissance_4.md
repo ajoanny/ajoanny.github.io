@@ -1,7 +1,7 @@
 ---
 title: TDD, IA Agentique et Puissance 4
 pubDatetime: 2026-04-28
-featured: true
+featured: false
 draft: false
 tags:
   - TDD
