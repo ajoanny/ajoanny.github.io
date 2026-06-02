@@ -150,20 +150,30 @@ Toutes les corrections et ça semble important de le souligné, ont du se faire 
 de tests fonctionnel et donc sans retours d'infromation sur ce qui marche ou pas, surtout sans retour d'information notre progression.
 Suite à ce constat correction a été de rajouter un instructions dans le contexte demande explicitement de faire passer les tests.
 
-Lors de génération suivante, ce qu'on a observé c'est que l'ajout de ces consignes à : TODO.
-
-Les tests en eux même était rarement, exactement ceux lister dans les spécifications, parfois certains manquais et parfois des tests
+Les tests n'étaient pas exactement ceux lister dans les spécifications, parfois certains manquais et parfois des tests
 qui n'était pas listé étaient ajouté. Un problème récurent a été que les tests était rarement complet, dans le sens ou il
-ne testais pas complètement les implémentations. A plusieurs reprise nous avons fait du mutation testing en revue pour démontrer
-la fragilité des suites de teste générée. Les tests était généraux, et ne vérifiait pas toujours tout et rarement l'enemble
-des règles métiers spécifiées.
+ne testais pas complètement les implémentations. Nous avons fait du mutation testing en revue pour démontrer
+la fragilité des suites de tests générées. Les tests étaient généraux, et ne vérifiait pas tout -certains effets de bords n'étaients
+pas tester comme la persistence- et l'ensemble des règles métiers n'était pas tester non plus -les cas nominaux-.
 
-contexte, ce que nous avons observé, c’est que les itérations n’ont pas forcément été un moyen de cadrer le LLMs
+Le premier que je veux soulever c'est que les tests, l'élémennt sensé nous aidier à vérifier que le code générer est fonctionnel,
+n'est pas fiable car il ne seont pas complet et qu'il ne teste pas correctement le code, il manque des vérification. Cette
+particularité fait qu'utilisé un indicateur comme la couverture de test nous aurais induit en erreur, car le code est bien excétué
+dans les tests, mais il n'y a pas les assertions permettant de verifeir le bon comportement du code.
+C'est une situation que je n'aime parce qu'elle ne permet pas de se reposer sur suite de tests pour permetter de faire des
+corrections tout en s'assurant du bon fonctionnement du code.
+Du c$oté de l'im^lémentation, les résultats n'ont pas été plus probant, le code généré ne respectant partiellement les standard,
+et pratique de l'équipe malgrès la présence d'ADR et de d'un fichier de contexte claude.md.
+
+Nous avons fait plusieurs itération pour faire les corrections que nous voulions au LLM.
+Ce que nous avons observé, c’est que les itérations n’ont pas forcément été un moyen de cadrer le LLMs
 pour l'amener là où nous voulions. Il y a eu des dérives à plusieurs reprises, parfois les corrections était incomplète,
 pas les bonnes et surtout pas toujours limiter aux fichiers que nous traitions.
 
 Nous avons essayé de nous servir de ces itérations pour faire un retour d’information
 à Claude afin de lui indiquer les corrections que nous voulions apporter.
+
+Lors de génération suivante, ce qu'on a observé c'est que l'ajout de ces consignes à : TODO.
 
 Par exemple, nous avions des corrections sur les types utilisés et sur le fait que nous essayions d’éviter d’avoir des types
 nullables, et les corrections effectuées n’étaient pas forcément bonnes ni très cohérentes.
