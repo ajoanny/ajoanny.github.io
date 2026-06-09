@@ -115,9 +115,10 @@ et plus de contexte ou une approche itérative, on ne peut pas garantir les rés
 les dérives et hallucinations, sans pourtant réussir à aller jusqu'à les faire disparaitre et c'est un paramètre à ne pas oublier.
 
 Bien que les interactions avec le modèle aient parfois été utiles pour faire émerger certains angles morts, elles n’ont pas remplacé
-la valeur des échanges entre développeurs, QA et PO. L'atelier tres amigos ou même le BDD produisent plus qu'une liste
-de tests. Ces pratiques permettent de construire progressivement une compréhension du besoin. Ce sont les échanges
-dans ces pratiques qui permettent de construire cette compréhension partagée du contexte métier.
+la valeur des échanges entre développeurs, QA et PO. L'atelier tres amigos ou même le BDD produisent une compréhension plus fine
+de la fonctionnalité. Ces pratiques permettent de construire progressivement une compréhension du besoin. Ce sont les échanges
+dans ces pratiques qui permettent de construire cette compréhension partagée du contexte métier. Il arrive parfois qu'il y ait
+des incompréhensions et c'est naturelle, mais les échangent permettent d'apprendre et de partager.
 
 Avec un LLM, la dynamique est différente, même si générer un document permettant de lister ce que l'on comprend d'un sujet est
 intéressant, il ne produit pas de lui-même de compréhension partagée. Notre objectif avec ce document de spécifications était
@@ -133,6 +134,9 @@ nos propos dans ses réponses, donnant une fausse impression de compréhension. 
 humains n'a pas tendance à nous laisser croire qu'on reproduit cette compréhension mutuelle alors que ce n'est pas la mécanique
 sur laquelle reposent les LLMs. L'utilisation dans nos contextes et skills de phrases comme "Demande toujours avant",
 "Ne fais pas X", ont tendance à me laisser penser que c'est bien le cas.
+
+C'est un cas d'usage qui peut être intéressant, mais qui comme tout les autres outils promettant d'automatiser des pratiques,
+montre que les échanges restent indispensable pour constuire des spécification et pas extension une application.
 
 #### 3 Implémentations
 
@@ -170,120 +174,106 @@ Ce que nous avons observé, c’est que les itérations n’ont pas forcément �
 pour l'amener là où nous voulions. Il y a eu des dérives à plusieurs reprises, parfois les corrections était incomplète,
 pas les bonnes et surtout pas toujours limiter aux fichiers que nous traitions.
 
-Nous avons essayé de nous servir de ces itérations pour faire un retour d’information
-à Claude afin de lui indiquer les corrections que nous voulions apporter.
-
-Lors de génération suivante, ce qu'on a observé c'est que l'ajout de ces consignes à : TODO.
-
 Par exemple, nous avions des corrections sur les types utilisés et sur le fait que nous essayions d’éviter d’avoir des types
-nullables, et les corrections effectuées n’étaient pas forcément bonnes ni très cohérentes.
+nullables, et les corrections effectuées n’étaient pas forcément bonnes ni très cohérentes. Les tentatives de faire faire à claude
+les corrections sur le signature des fonctions généré ont été infructueuses. Malgrès le faite d'avoir reformuler, et itérer sur
+les corrections l'escercice s'est avéré difficile.
 
-Nous avons eu plusieurs approches pour ajuster le contexte et ce qu’il y avait dans le `Claude.md`.
+Après plusieurs tentative, nous avons essayer une autre approche, faire la correction et laisser Claude analyser le code
+pour identifier les corrections faite pour compléter le contexte. Personnellement, ça été assez amusant comme exercice,
+et beaucoup moins frustrant. Les résultats n'ont pas été très probant, les règles inféré à partir du code n'était pas toujours
+les bonnes et parfois très contextuelle aux corrections que nous avions faites, mais l'exercice le faite d'^etre moins passif
+dans la production de code a été par moment de ne plus être frustré par la difficulté à donner en langague naturelle un contexte permettant
+d'aller ou nous le voulions.
 
-Premièrement, nous avons demandé à Claude de le mettre à jour en explicitant ce qui était ajouté.
-
-Nous avons également eu une autre approche, un peu plus intéressante : nous avons fait les corrections à la main. Nous
-avons demandé à Claude de faire la différence entre sa solution et la nôtre, et d’insérer les règles à partir de ces différences.
-
-Il n’y a pas eu de meilleure construction du contexte avec ces deux approches, mais je dois avouer que reprendre la main,
-faire la correction, puis laisser Claude faire la différence est assez intéressant et même amusant. Cela permet parfois de
-mettre des mots, de verbaliser une manière de faire que l’on a parfois du mal à exprimer. Cela permet aussi d’être plus
-proactif sur la construction du code et donc sur son appropriation.mais on peut faire des fts,
+Lors de génération suivante, nous avons essayer revoir notre workflow, premièrement nous avons décidé de découper un peu mieux
+le contexte fournit au LLM en ayant plus CLAUD.md dans le projet, en ayant un fichier par couche d'architecture (infrastructure et domaine),
+plus un global au projet. Ensuite, nous avons séparer le contexte architecture et la définission de standard d'équipe et pratique.
+Nous avons customiser une partie des skills que nous utilisions pour spécifier des choses comme le type de tests que nous voulions.
 
 Malgré toutes ces itérations, à plusieurs reprises, Claude a dérivé dans les résultats qu’il produisait. Il a été parfois
 difficile, voire impossible, de le ramener là où nous voulions aller. Il y avait une perte de cohérence au fur et à mesure
 des différentes tentatives d’implémentation et de correction.
 
-À plusieurs reprises, nous avons essayé de nettoyer le contexte de la session de génération de code. Nous avons conservé le
-`Claude.md`, mais nous sommes repartis sur une nouvelle session d’échange avec Claude. Cela n’a pas été significativement
+À plusieurs reprises, nous avons essayé de nettoyer le contexte de la session de génération de code en démarrant une nouvelle session.
+Nous avons conservé le `Claude.md`, mais nous sommes repartis sur une nouvelle session d’échange avec Claude. Cela n’a pas été significativement
 mieux. Nous n’avons pas toujours réussi à atteindre le résultat attendu, ce qui a été particulièrement frustrant.
 
 L’observation que nous nous sommes faite est qu’à plusieurs reprises, tenter de décrire la correction était particulièrement
-difficile. Décrire en langage naturel l’intention du code n’est pas toujours évident, ce n’est pas un exercice que nous
-faisons régulièrement.
+difficile. Décrire en langage naturel une implémentation n’est pas toujours évident, ce n’est pas un exercice que nous
+faisons régulièrement. L’exercice de description en langage naturel était parfois plus complexe que l’écriture du code
+lui-même. Dans certains cas écrire le code devient plus facile que de faire une description en langage naturel, et c'est ce qui
+je pense à été la plus grande source de frustration pendent nos expériementations.
 
-L’exercice de description en langage naturel était parfois plus complexe que l’écriture du code lui-même.
+Nos tentatives de générer du code on été la source d'énormement de discussion à propose de nos pratiques, nos stadards et
+aussi de notre manque d'alignement sur certains points. Ca été l'occasion de ré-aborder pas mal de sujet ou nous étions alignée
+sur le principes mais pas dans le fond. Par exemple les stratégie de tests et la répartitions entre les tests d'intégrations
+et unitaire, ou la volonté de suivre la pyramide des tests ou le diamand.
+En voulant définir un meilleur contexte plus claire et en limitant les contrations, nous avons soulevé quelques sujet ou,
+nous acceptions de façon implicite plusieurs manières de faire.
 
-Le point est que, à partir du moment où écrire le code devient plus facile que de faire une description en langage naturel,
-cela diminue fortement la valeur ajoutée du passage par un LLM.
-
-Cela a discuté au moment où nous avons beaucoup questionné la manière de construire le contexte et son contenu, notamment
-sur le fait que nous n’avions pas forcément des éléments totalement cohérents dans notre texte et surtout dans le code.
-
-Au fil des années, une observation que j’ai faite est que les applications sont généralement hétérogènes dans leur code.
-On ne retrouve pas toujours les mêmes patterns sur toutes les parties du code. Parfois parce qu’une décision a été prise
-à un instant T qui ne semble plus cohérente à un instant T+1, ou parce que dans un contexte donné, une entorse à une règle
-initiale a été acceptée pour diverses raisons.
+Une observation que j’ai faite au cours de ma relativement petit expérience est que les applications sont généralement
+hétérogènes dans leur code. On ne retrouve pas toujours les mêmes patterns sur toutes les parties du code. Parfois parce
+qu’une décision a été prise à un instant T qui ne semble plus cohérente à un instant T+1, ou parce que dans un contexte
+donné, une entorse à une règle initiale a été acceptée pour diverses raisons.
 
 Au-delà de cela, les équipes évoluent : des personnes arrivent, des personnes partent, ce qui fait évoluer les pratiques
-et donc la manière dont le code est écrit.
-
-Il existe aussi des contextes où plusieurs équipes différentes partagent une même codebase et, en fonction de qui travaille
-sur quelle partie, les pratiques finissent par diverger avec le temps.
-
-Toutes ces incohérences ont un impact sur la manière dont l’agent interprète les demandes. Elles influencent les résultats
-produits par le LLM. Elles rejoignent le contexte et influencent la génération.
-
-La distribution, par exemple la représentation d’un pattern dans le code, peut pousser le LLM à produire une solution plutôt
-qu’une autre. C’est assez intéressant à observer.
+et donc la manière dont le code est écrit. Il existe aussi des contextes où plusieurs équipes différentes partagent une même
+codebase et, en fonction de qui travaille sur quelle partie, les pratiques finissent par diverger avec le temps.
 
 Ce mécanisme, cette entropie, cette diversité est naturelle dans le cycle de vie d’un projet. On ne peut pas nécessairement
 la faire disparaître ; on peut la ralentir, mais cela a un coût. Cela implique de passer beaucoup de temps à uniformiser des
 pratiques spécifiques, et donc moins de temps à délivrer quelque chose de valeur pour les utilisateurs.
 
-Faire évoluer des portions d’application ou de code, c’est toujours prendre le risque de les casser, et ce n’est pas forcément
-intéressant dans certains contextes.
+Toutes ces incohérences et cette hétérogénéité ont un impact sur le contexte de génération de code. Ces éléments influencent
+les résultats produits par le LLM qui à leur tour enrichissent le contexte de génération.
 
-Mon hypothèse est que plus le code d’une application est hétérogène, plus il devient difficile de pousser un LLM à produire
-quelque chose de cohérent vis-à-vis de ce code existant.
+Une génération de code a été particulièrement intéressant et le sujet de beaucoup de réfléxions.
 
-En essayant de pousser le raisonnement sur les entraînements des LLM et notamment les corpus, les projets et le code utilisés,
-on retrouve cette même logique.
+Syur une des projet nous avons la librairie ft-ts, et du coup nous essayons de faire le la programation fonctionnel (dans
+les limites de ce que permet le langaue et la librarie).
 
-Si dans un projet mené par une seule équipe, on observe déjà cette hétérogénéité dans les pratiques et les patterns, elle
-est encore plus présente dans des projets développés par différentes entreprises ou équipes, qui n’ont pas nécessairement
-conscience des pratiques des autres et qui n’ont pas d’intérêt à créer des alignements.
+Ce qui est intéressant c'est que sur la durée, la généreation n'as pa été cohérente.
+SI par exemple le premire niveua de code utilisait bien la librairie fp-ts et notement les either de la linbrarie pour gérer les ifs
+en avancant dans la génération, parfois le modele a dérivé et générait du code utilisant des if/else au lieux de either.
 
-Mon hypothèse est qu’aujourd’hui, pour rendre les modèles efficaces dans leur capacité à produire du code fonctionnel, on
-a tendance à leur exposer un maximum de code différent.
+Le premire constant est que le modèle au débyut de la génération à utilisé fp-ts, donc il connait cette librairies et est capable
+de générer de code l'utilisant. Par la librairie n'a pas été utilisé sur toute la génération est c'est utilise d'essye de comprednre pourquoi.
 
-Ce qui les rend probablement moins efficaces lorsqu’on cherche à produire une génération très spécifique de code.
+Mon hypothèse est que les différents entraiement ont d'un permis d'un côté au model de générer du fp-ts et de l'autre l'empèche
+d'en générer sur la durée. Les différent entraiement (corpus, humain, etc etc) on reforcé la probalité de générer certains type d'implémentation.
+Dans notre cas lutilisation de if/else par rapprot à l(utilsiation du either. Je suppose que les corpus contenais plus de code if/else
+impératiof que de either car la programmation fonctionnel me semble mon fréuement utilisée. Les autres entraienement on probablement
+suivis cette tendant rendant plus probale la génération de if/else pour les conditionnel. Au fur et a mesur de la génération
+le contexte change et certains élément influence moins la probabilité de faire générer quelque chose de spécifique. Dans notre
+cas malgrès la présence, d'instuctions pour l(utilisation de fp=-ts sur la durée ça na pas suffit. Le contexte que nous avions
+ne permettant plus au modèle de suffisament influencé les probabilité et de génrer du code fp-ts et donc il a produit ce qui
+a le pluys été renforcé pendant l'entrainement : les else/if.
+Je suppose que pour avoir une génération cohérence il faudrait un mécanisme permettant de garder/rafarichir les régles sur
+l'utilisation de fp-ts tout le long de la générations. Et c'est aujoursd'hui assez sur à faire, même sur des générations assez
+courte (une 30 de lignes de code dans notre cas). C'est selon moi une forme de biais de génération, le model va tendre sur la durée
+à produire les patterns qui ont été le plus renforcé pendant l'entrainement. Ces biais rendent difficiee la génération de code
+cohérent sur pattern qui ne sont pas les patterne dominant du modele.
+Buien que je pense que l'entraiement et la génération influence les résultat de la génération il y a un dernière élément à prendre en comtpe à mon avis.
+C'est le code et la cohérence de la base de code, dans notre projet nous avons essayer d'utiliser le plus possible fp-ts,
+mais même comme ça il est possible de trouver par endroit du code utilisant des else if. Ces incohérences, vont influencer le contexte
+et la capacité du LLM à produire du code en reforcant ou diminuant la probabilité de produire les patterns dominant du models.
 
-Le composant principal sur lequel on travaille a été fait en essayant d'élibérer FTPF et en essayant d'avoir une approche
-fonctionnelle à l'implémentation, notamment en utilisant des patterns comme les ifs, qui sont un objet permettant de représenter
-par exemple deux embranchements, comme les fins else ou if. L'idée avec la fédérative, c'est d'utiliser un pipe pour enchaîner
-les modifications de fonctionnalités des autres bords, en les contenant à chaque étape, l'objet qu'on a noté. Malgré les
-exemples de code, malgré le code plutôt clair sur cet aspect-là, le LMM n'a pas forcément récepté ce concept-là jusqu'au
-bout. Si on invente une pipeline utilisant ce concept-là, après on est pas ici des exemples, mais on peut faire des fts
-ce serait très classique. Au-delà de ça, dans nos tentatives successives de refactorer le code par client par l'agent, ça a
-été assez difficile d'essayer d'introduire le concept de cycles parc. Pas forcément très intéressant, peut-être un niveau de détail trop... OK.
-C'est sur ces comportements qui m'ont fait questionner sur l'entraînement des LLM, la distribution sur laquelle repose la génération de la réponse.
-C'est cette plénance qui m'a fait me poser la question si, en fonction du corpus d'entraînement qui a été utilisé, si la variété
-et la distribution dans les solutions que les LLM a généré et ont étudiées pouvaient avoir un impact sur la capacité du LLM
-à générer certaines représentations. Je suppose qu'en fonction de la distribution des différents patterns et des différentes
-pratiques, il peut être difficile d'arriver sur des approches sous-représentées. Ce qui me fait penser que dans le contexte
-de la génération, encore plus très variée, où entre guillemets avec des patterns sur-représentés ou d'autres sous-représentés,
-il sera particulièrement difficile à orienter sur une implémentation spécifique, notamment si elle est sous-représentée dans
-le corpus d'entraînement.
+Cette hypotèse et ces réfléxions, me laisser penser que le seule moyen de guider la génération à notre dispositiont est le contexte.
+Les entrainements étant fait pas les société développement les modèles (et pas très transparant) et la génération faite par le modèle,
+espérer controller les résultat produit en s'appyuant uniquement sur le contexte me parait peu atteignable pour le moment.
+C'es ce qui rend de moins point de vue la génération assez difficile à matiriser et me gène dans leur utilisations pour de
+la génération.
 
-Un aspect que je trouve particulièrement intéressant dans cette métier, c'est la capacité à abstraire certaines problématiques.
-On essaie de représenter avec du code, et donc dans un contexte normalisé très cadré, des problématiques réelles. Et ce
+===> Avoir si jhe garde j'aime l'idée mais je sais pas l'articuler pour l'instant
+Un aspect que je trouve particulièrement intéressant dans notre métier, c'est la capacité à abstraire certaines problématiques.
+On essaie de représenter avec du code, et donc dans un contexte très cadré, des problématiques réelles. Et ce
 n'est pas toujours évident. Ça demande certains niveaux d'abstraction et des représentations pas toujours réelles. Et ça
 va créer une tension entre le contexte fonctionnel, qui va impliquer une description plutôt réaliste du métier de ce qui
-se passe, et une conception technique, et donc forcément partielle et orientée pour résoudre un problème. Je m'interroge
-sur la capacité de l'IA à faire la distinction entre ces deux éléments, qui n'est déjà pas évidente humainement. J'ai eu
-beaucoup de conversations sur le sujet où on tentait de me délivrer la réalité, et c'est rarement une bonne idée, parce
-que la modélisation devient complète et n'est pas nécessairement orientée pour résoudre les problèmes qui nous intéressent.
-
-Les fichiers qui vont convenir à ce contexte, les éléments importants du cycle de développement et impliquent une grande
-communication et un effort assez important en termes de construction et de synchronisation entre les divers membres de
-l'équipe. Parce que s'il est difficile d'évaluer l'impact du contexte en fonction de cette structure, de sa redondance et
-de sa longueur sur la génération de code, il est facilement compréhensible que construire ce contexte en introduisant des
-éléments contradictoires parce que les différents membres de l'équipe ne seraient pas d'accord soit une manière de faire
-ne sera pas forcément produite. Le autre aspect qu'on a abordé est la possibilité d'avoir sur chaque poste un document de
-la même nature que le fichier permettant de personnaliser un petit peu l'expérience de chaque développeur. Et c'est
-intéressant et compréhensible, mais encore une fois, ça introduit de manière un peu plus forte la possibilité d'introduire
-des contradictions dans les informations et dans le contexte qui va donner à la génération.
+s'y passe, et une conception technique, et donc partielle et orientée pour résoudre un problème spécifique ce qui peut être une source
+de contradiction.
+Je m'interroge sur la capacité de l'IA à faire la distinction entre ces deux éléments, qui n'est déjà pas évidente humainement.
+<===
 
 #### 3.1 Implémentation dans contexte non maitrisé
 
@@ -434,3 +424,15 @@ ne permettraient probablement pas de faire tourner un modèle localement, et cel
 En revanche, une alternative plus réaliste serait l’utilisation de modèles spécialisés, entraînés sur des tâches précises comme la
 détection de fuites mémoire ou d’anomalies. Ces modèles seraient plus légers, potentiellement exécutables localement, sans forcément
 nécessiter une exécution à chaque pipeline.
+
+### Conclusion
+
+TODO:
+Dans ce contexte
+Plus utilise sur de l'analyse que sur de la génération
+Utilise pour réduire un espace de recherche, par forcément nécéssaire d'automatiser ? (comme des tests de charges).
+Utilisation de pattern peu courant pour un langague rend difficle d'avoir une "longue" génération.
+Observation partagé entre les membre de l'équipe, l'usage du LLM nous rend faignat par moment, assez facile de demander des chose au llm donc
+plus envie de parcourir des doc officiels et de réfléchir de nous pour raisoudre certains problèmes.
+
+a compléter.
