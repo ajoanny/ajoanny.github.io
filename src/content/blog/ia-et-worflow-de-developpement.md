@@ -220,24 +220,26 @@ de beaucoup de discussions, notamment sur les éléments où l'équipe manquait 
 Nous avons aussi pris le temps de modifier les skills utilisés par le LLM pour la génération, la revue et la création des
 spécifications, et de les rajouter au projet pour les versionner.
 
-On a aussi challengé notre approche, en découpant la génération en fonction des différents use-cases qu'on identifiait dans les user stories.
+On a aussi challengé notre approche, en découpant la génération en fonction des différents sous-use-cases qu'on identifiait dans les user stories.
 L'idée était de diminuer la complexité de la tâche et la quantité de code généré pour revoir efficacement le code et détecter les dérives
 plus tôt.
 
-==> Constat global, peu importe l'approche
+...TODO : Compléter
 
 Malgré toutes ces discussions et les efforts pour rendre explicites beaucoup de nos pratiques et nos choix, la génération ne s'est pas significativement
 améliorée. On a continué à observer des dérives et un manque de cohérence sur la génération. Le modèle n'appliquant pas certaines pratiques
 tout le long des générations de code.
 
-Le premier point que je veux soulever, c'est que les tests, l'élément censé nous aider à vérifier que le code généré est fonctionnel,
-ne sont pas fiables car ils ne sont pas complets et et qu'ils ne testent pas correctement le code, il manque des vérifications. Cette
+Le premier constat que je tire c'est que malgré nos tentatives de clarifier le contexte et faire des itérations pour mieux
+contrôler et guider la génération nous ne sommes pas parvenus à obtenir une génération qui était cohérente et satisfaisante
+vis-à-vis de nos standards et pratiques.
+
+Le second point que je veux soulever, c'est que les tests, l'élément censé nous aider à vérifier que le code généré est fonctionnel,
+ne sont pas fiables car ils ne sont pas complets et qu'ils ne testent pas correctement le code, il manque des vérifications. Cette
 particularité fait qu'utiliser un indicateur comme la couverture de test nous aurait induit en erreur, car le code est bien exécuté
 dans les tests, mais il n'y a pas les assertions permettant de vérifier le bon comportement du code.
-C'est une situation que je n'aime parce qu'elle ne permet pas de se reposer sur une suite de tests pour faire des
+C'est une situation que je n'aime pas parce qu'elle ne permet pas de se reposer sur une suite de tests pour faire des
 corrections tout en s'assurant du bon fonctionnement du code.
-
-==> Observation
 
 Nos tentatives de générer du code ont été la source d'énormément de discussions à propos de nos pratiques, nos standards et
 aussi de notre manque d'alignement sur certains points. Ça a été l'occasion de ré-aborder pas mal de sujets où nous étions alignés
@@ -246,70 +248,62 @@ et unitaires, ou la volonté de suivre la pyramide des tests ou le diamant.
 En voulant définir un contexte meilleur et plus clair, et en limitant les contradictions, nous avons soulevé quelques sujets où
 nous acceptions de façon implicite plusieurs manières de faire.
 
-==> Hypothèse
+Une génération de code a été particulièrement intéressante et le sujet de beaucoup de réflexions. Sur un des projets nous
+avons la librairie fp-ts, et nous essayons de faire de la programmation fonctionnelle (dans les limites de ce que permettent le langage et la librairie).
 
-Une observation que j’ai faite au cours de ma relativement petite expérience est que les applications sont généralement
-hétérogènes dans leur code. On ne retrouve pas toujours les mêmes patterns sur toutes les parties du code. Parfois parce
-qu’une décision a été prise à un instant T qui ne semble plus cohérente à un instant T+1, ou parce que dans un contexte
-donné, une entorse à une règle initiale a été acceptée pour diverses raisons.
+Dans ce contexte, la génération n'a pas été cohérente sur la durée. À première vue, le code utilisait bien la librairie fp-ts.
+Sur la fonction principale, les éléments de la librairie étaient présents (pipe, either, ...), mais en explorant le code et notamment
+les fonctions utilisées par notre fonction principale, l'utilisation de la librairie n'était pas faite et on trouvait des if/else
+à la place d'une utilisation des Either.
+
+Les difficultés que nous avons rencontrées m'ont aussi fait me questionner sur les entraînements des LLMs. Le premier constat est
+que le modèle au début de la génération a utilisé fp-ts, donc il connaît cette librairie et est capable de générer du code
+l'utilisant. Pourtant, la librairie n'a pas été utilisée sur toute la génération malgré une utilisation pas majoritaire mais
+répandue des Either dans notre base de code (Une recherche avec un grep donnait 281 occurrences de if contre 253 occurrences de Either).
+
+Mon hypothèse est que notre capacité à maîtriser la génération de code de façon précise est dépendante de la cohérence de contexte (code, prompt, skills, etc)
+qui n'est pas facilement maîtrisable, et qu'en plus le contexte n'est pas l'unique élément impactant la génération. Les entraînements et le code généré par exemple
+vont aussi impacter la génération et faciliter ou non la production de certains patterns.
+
+Une observation que j’ai faite au cours de ma relativement petite expérience est que le code des applications est généralement
+hétérogène. On ne retrouve pas toujours les mêmes patterns sur toutes les parties du code. Parfois parce
+qu’une décision prise à un instant T ne semble plus cohérente à un instant T+1, ou parce que dans un contexte
+donné, une entorse aux règles a été acceptée pour diverses raisons.
 
 Au-delà de cela, les équipes évoluent : des personnes arrivent, des personnes partent, ce qui fait évoluer les pratiques
 et donc la manière dont le code est écrit. Il existe aussi des contextes où plusieurs équipes différentes partagent une même
-codebase et, en fonction de qui travaille sur quelle partie, les pratiques finissent par diverger avec le temps.
+base de code et, en fonction de qui travaille sur quelle partie le code n'est pas homogène et avec le temps les pratiques entre
+les équipes peuvent diverger accentuant ce phénomène.
 
-Ce mécanisme, cette entropie, cette diversité est naturelle dans le cycle de vie d’un projet. On ne peut pas nécessairement
-la faire disparaître ; on peut la ralentir, mais cela a un coût. Cela implique de passer beaucoup de temps à uniformiser des
-pratiques spécifiques, et donc moins de temps à délivrer quelque chose de valeur pour les utilisateurs.
+Cette entropie, cette diversité est naturelle dans le cycle de vie d’un projet. On peut la ralentir (sans la stopper), mais
+cela implique de passer beaucoup de temps à uniformiser le code, et donc moins de temps à délivrer quelque
+chose de valeur pour les utilisateurs.
 
-Toutes ces incohérences et cette hétérogénéité ont un impact sur le contexte de génération de code. Ces éléments influencent
-les résultats produits par le LLM qui à leur tour enrichissent le contexte de génération.
+Toutes ces incohérences et cette hétérogénéité ont un impact sur la cohérence globale du contexte de génération de code. Le
+code lu par l'agent peut être contradictoire avec les instructions du prompt et les standards d'équipe. Si ces incohérences augmentent la probabilité
+que le modèle utilise des patterns différents alors on augmente la probabilité de le faire dériver et donc d'avoir une implémentation
+utilisant les mauvais patterns.
 
-Une génération de code a été particulièrement intéressante et le sujet de beaucoup de réflexions.
+Mon intuition est que la variété dans le code utilisé pour les entraînements a, d'un côté, permis au modèle de générer du code
+utilisant fp-ts et de l'autre a probablement introduit un biais favorisant l'utilisation d'autres patterns. Les différents
+entraînements (corpus, humain, etc.) ont je pense renforcé la probabilité de générer l'utilisation de if/else
+par rapport à l'utilisation du Either. Hypothèse qui me semble raisonnable dans la mesure où, dans les contextes où je ne spécifiais pas
+l'implémentation pour les éléments conditionnels, ce sont des ifs qui ont été utilisés et que le contexte de l'article c'est vers des if/else
+que le modèle dérivait. Ce qui peut soulever des questions sur la représentation des patterns dans les corpus d'entraînement, et
+de comment les autres entrainements peuvent introduire des biais, notamment les entraînements avec vérification humaine.
 
-Sur un des projets nous avons la librairie fp-ts, et du coup nous essayons de faire de la programmation fonctionnelle (dans
-les limites de ce que permettent le langage et la librairie).
-
-Ce qui est intéressant c'est que sur la durée, la génération n'a pas été cohérente.
-Si par exemple le premier niveau de code utilisait bien la librairie fp-ts et notamment les Either de la librairie pour gérer les conditionnels
-en avancant dans la génération, parfois le modèle a dérivé et générait du code utilisant des if/else au lieu de Either.
-
-Le premier constat est que le modèle au début de la génération a utilisé fp-ts, donc il connaît cette librairie et est capable
-de générer du code l'utilisant. Pourtant, la librairie n'a pas été utilisée sur toute la génération, et c'est utile d'essayer de comprendre pourquoi.
-
-Mon hypothèse est que les différents entraînements ont, d'un côté, permis au modèle de générer du fp-ts et de l'autre l'empêchent
-d'en générer sur la durée. Les différents entraînements (corpus, humain, etc.) ont renforcé la probabilité de générer certains types d'implémentation.
-Dans notre cas, l'utilisation de if/else par rapport à l'utilisation du Either. Je suppose que les corpus contenaient plus de code if/else
-impératif que de Either car la programmation fonctionnelle me semble moins fréquemment utilisée. Les autres entraînements ont probablement
-suivi cette tendance, rendant plus probable la génération de if/else pour les conditionnels. Au fur et à mesure de la génération
-le contexte change et certains élément influence moins la probabilité de faire générer quelque chose de spécifique. Dans notre
-cas, malgré la présence d'instructions pour l'utilisation de fp-ts, sur la durée ça n'a pas suffi. Le contexte que nous avions
-ne permettant plus au modèle de suffisamment influencer les probabilités et de générer du code fp-ts et donc il a produit ce qui
-a le plus été renforcé pendant l'entraînement : les else/if.
-Je suppose que pour avoir une génération cohérente, il faudrait un mécanisme permettant de garder/rafraîchir les règles sur
-l'utilisation de fp-ts tout le long de la générations. Et ce n'est aujourd'hui pas encore fiable à faire, même sur des générations assez
-courtes (une trentaine de lignes de code dans notre cas). C'est selon moi une forme de biais de génération, le modèle va tendre sur la durée
-à produire les patterns qui ont été le plus renforcé pendant l'entraînement. Ces biais rendent difficile la génération de code
-cohérent sur des patterns qui ne sont pas les patterns dominants du modèle.
-Bien que je pense que l'entraînement et la génération influencent les résultats de la génération, il y a un dernier élément à prendre en compte à mon avis.
-C'est le code et la cohérence de la base de code, dans notre projet nous avons essayer d'utiliser le plus possible fp-ts,
-mais même comme ça il est possible de trouver par endroits du code utilisant des else if. Ces incohérences, vont influencer le contexte
-et la capacité du LLM à produire du code en renforçant ou diminuant la probabilité de produire les patterns dominants du modèle.
-
-Cette hypothèse et ces réflexions me laissent penser que le seul moyen de guider la génération à notre dispositiont est le contexte.
-Les entraînements étant faits par les sociétés développant les modèles (et pas très transparents) et la génération faite par le modèle,
-espérer contrôler les résultats produits en s'appuyant uniquement sur le contexte me paraît peu atteignable pour le moment.
-C'est ce qui rend, de mon point de vue, la génération assez difficile à maîtriser et me gêne dans leur utilisation pour de
-la génération.
-
-===> À garder ? J'aime l'idée mais je ne sais pas l'articuler pour l'instant
-Un aspect que je trouve particulièrement intéressant dans notre métier, c'est la capacité à abstraire certaines problématiques.
-On essaie de représenter avec du code, et donc dans un contexte très cadré, des problématiques réelles. Et ce
-n'est pas toujours évident. Ça demande certains niveaux d'abstraction et des représentations pas toujours réelles. Et ça
-va créer une tension entre le contexte fonctionnel, qui va impliquer une description plutôt réaliste du métier de ce qui
-s'y passe, et une conception technique, et donc partielle et orientée pour résoudre un problème spécifique ce qui peut être une source
-de contradiction.
-Je m'interroge sur la capacité de l'IA à faire la distinction entre ces deux éléments, qui n'est déjà pas évidente humainement.
-<===
+Les deux approches que je peux tirer pour avoir une génération cohérente sont de soit utiliser les patterns les plus probables
+d'être produits par le modèle et qu'en cas de dilution du contexte ou de perte d'attention (pour reprendre des termes plus courants)
+en misant sur le fait que le modèle dérive le plus souvent vers les patterns les plus probables, et je ne sais pas dans quelle mesure
+c'est quelque chose qu'on peut garantir. Et si c'était le cas, les patterns les plus probables ne sont pas forcément les plus adaptés
+à nos différents contextes fonctionnels et techniques. On peut aussi se poser la question de changer de modèle et d'en utiliser
+un avec un entraînement visant à renforcer la probabilité d'utiliser les patterns qui nous intéresse. Ce ne sont pas des informations
+qu'on a vraiment sur les modèles pour le moment. On peut aussi envisager de prendre le temps d'entraîner les modèles nous-mêmes,
+ou de les fine-tuner, mais j'ai du mal à estimer la complexité de la tâche.
+La seconde serait d'avoir un mécanisme permettant de garder/rafraîchir certains éléments de contexte pour qu'ils ne soient pas "perdus"
+au milieu du contexte (dans notre cas, l'utilisation de fp-ts) durant la génération. À ce jour, nous n'avons pas trouvé de moyen de le faire,
+réduire la taille de nos itérations n'a pas été une solution fiable dans notre contexte (Nous avons constaté des dérives sur
+des génértion d'implmentation d'un trentaine de ligne de codes).
 
 ### 3.1 Implémentation dans un contexte non maîtrisé
 
