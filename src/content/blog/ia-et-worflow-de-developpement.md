@@ -10,11 +10,11 @@ description: Retour d'expérience sur l'intégration de l'IA dans le cycle de d�
 ---
 
 Ça fait plusieurs mois maintenant que j’essaie de trouver une manière pertinente d’intégrer les LLM dans mes pratiques de
-développement. Mon but est de conserver au moins le même niveau de maintenabilité,
-de compréhension ainsi que d’ownership du code.
+développement. La question qui me guide est simple : est-il possible de le faire sans dégrader la maintenabilité,
+la compréhension et l’ownership du code ?
 
-Jusqu’à présent, mes terrains d’expérimentation se sont limités aux katas, en tentant d’éprouver la génération d’implémentation,
-la génération de tests, la pratique du TDD et le refactoring. Même sur des sujets simplistes, les résultats ont été discutables
+Jusqu’à présent, mes terrains d’expérimentation se sont limités aux _katas_, en tentant d’éprouver la génération d’implémentation,
+la génération de tests, la pratique du TDD et le _refactoring_. Même sur des sujets simplistes, les résultats ont été discutables
 en termes de fiabilité, de qualité et de répétabilité.
 
 J’ai eu cette fois l’opportunité de tester l’utilisation des LLM sur un projet en production. Ce changement de contexte a
@@ -25,7 +25,7 @@ et les réflexions sur les raisons des résultats que nous avons obtenus.
 
 ## Table of contents
 
-### 1 Contexte
+### Contexte
 
 Pour cette expérimentation, j'ai travaillé avec une équipe sur plusieurs composants d'une application en microservices de gestion de commandes.
 
@@ -39,15 +39,15 @@ et dans les solutions qu'on trouve dans le code.
 Côté IA, nous avons utilisé Claude Code avec le modèle **Sonnet 4.6**. Nous nous en sommes servis pour générer des tests,
 produire du code, rédiger de la documentation, questionner certaines idées d’implémentation, faire des revues de code,
 réaliser des analyses statiques, mais aussi clarifier les spécifications de certaines fonctionnalités. J'ai testé l'usage
-de Claude Code, dans des contextes de solo, pair et mob programming.
+de Claude Code, dans des contextes de solo, _pair_ et _mob programming_.
 
-Pour améliorer notre expérience en tant que développeur, nous avons décidé d'utiliser des skills. Les skills sont des ensembles
+Pour améliorer notre expérience en tant que développeur, nous avons décidé d'utiliser des _skills_. Les _skills_ sont des ensembles
 d'instructions réutilisables, généralement composés d'un rôle, d'un objectif et d'un contexte qui encapsule les informations
 nécessaires à l'exécution d'une tâche spécifique par un LLM. Le but étant de définir les tâches que l'on va utiliser de manière récurrente.
-Nous avons utilisé des `skills` comme [grill-with-docs](https://www.aihero.dev/grill-with-docs), qui a pour but de nous aider à
+Nous avons utilisé des _skills_ comme [grill-with-docs](https://www.aihero.dev/grill-with-docs), qui a pour but de nous aider à
 construire des spécifications (en essayant de réduire l'aspect conciliant du LLM) avant de se lancer dans la génération de code.
 
-### 2. Spécifications
+### Spécifications
 
 Pour chaque fonctionnalité, notre premier objectif était de clarifier les spécifications en itérant avec Claude Code. Ces clarifications contenaient
 du contexte sur la fonctionnalité (une description de la fonctionnalité et de son contexte d'utilisation) et une liste d'éléments
@@ -55,7 +55,7 @@ du contexte sur la fonctionnalité (une description de la fonctionnalité et de 
 markdown.
 
 Ces itérations ont mis en lumière des règles fonctionnelles implicites à plusieurs reprises, notamment autour de la gestion des
-permissions. Ce point mérite d’être souligné car ces tickets avaient déjà été travaillés lors d’ateliers "tres amigos". Malgré
+permissions. Ce point mérite d’être souligné car ces tickets avaient déjà été travaillés lors d’ateliers _tres amigos_. Malgré
 ces ateliers moi et mes collègues avons à plusieurs reprises identifié des éléments de contexte manquants (comme des noms pour certains états par exemple).
 Dans certains cas, où des éléments de contexte manquaient, le LLM générait des hypothèses et créaient du contexte de façon
 autonome. Ces éléments étaient faux et ne correspondaient pas à la réalité métier de la fonctionnalité. La problématique étant que
@@ -70,7 +70,7 @@ spécifications incomplètes, c'est prendre le risque de produire une solution q
 de clarification doit avoir lieu plus tôt, car ce qu'on apprend peut influencer la priorisation des sujets et surtout le choix
 de la solution. Un des risques avec cette approche, c'est qu'il est assez facile de poser des hypothèses ou de laisser les
 LLMs les poser pour avancer alors que le contexte devrait être clarifié avec les experts métier. Il y a probablement
-un intérêt à faire cet exercice pendant les ateliers `tres amigos`, puisque avoir les bonnes
+un intérêt à faire cet exercice pendant les ateliers _tres amigos_, puisque avoir les bonnes
 hypothèses sera plus simple.
 Ma seconde réflexion est qu'en réalité, il existe déjà des pratiques permettant de vérifier qu'un ticket est complet, par exemple,
 on peut utiliser une Definition of Ready, ou une check-list d'éléments à vérifier. Ces alternatives ont l'avantage d'être
@@ -86,7 +86,7 @@ et plus de contexte ou une approche itérative, on ne peut pas garantir les rés
 les dérives et hallucinations, sans pourtant réussir à aller jusqu'à les faire disparaître et c'est un paramètre à ne pas oublier.
 
 Bien que les interactions avec le modèle aient parfois été utiles pour faire émerger certains angles morts, elles n’ont pas remplacé
-la valeur des échanges entre développeurs, QA et PO. L'atelier `tres amigos` ou même le BDD produisent une compréhension plus fine
+la valeur des échanges entre développeurs, QA et PO. L'atelier _tres amigos_ ou même le BDD produisent une compréhension plus fine
 de la fonctionnalité. Ces pratiques permettent de construire progressivement une compréhension du besoin. Ce sont les échanges
 dans ces pratiques qui permettent de construire cette compréhension partagée du contexte métier. Il arrive parfois qu'il y ait
 des incompréhensions et c'est naturel, mais les échanges permettent d'apprendre et de partager.
@@ -103,14 +103,14 @@ d'un besoin erronée.
 Le dernier point que je tiens à souligner c'est l’usage du langage naturel par le LLM. À plusieurs reprises le LLM a reformulé
 nos propos dans ses réponses, donnant une fausse impression de compréhension. Je me demande si ce mimétisme avec des échanges
 humains n'a pas tendance à nous laisser croire qu'on construit cette compréhension mutuelle alors que ce n'est pas la mécanique
-sur laquelle reposent les LLMs. L'utilisation de skills et de phrases comme "Demande toujours avant",
+sur laquelle reposent les LLMs. L'utilisation de _skills_ et de phrases comme "Demande toujours avant",
 "Ne fais pas X", ont tendance à me laisser penser que ça peut être le cas, et ont tendance à me faire baisser ma garde quant
 au résultat produit par les LLMs.
 
 Si à première vue, il peut sembler que les LLMs peuvent grandement faciliter cette étape du développement, c'est prendre
 le risque d'appauvrir les échanges et perdre la compréhension partagée qu'on cherche à construire, et ce, sans s'en rendre compte.
 
-### 3. Implémentations
+### Implémentations
 
 Une fois satisfait des spécifications, nous nous sommes lancés dans la génération du code. La démarche de l'équipe était
 de lancer la génération à partir des spécifications et ensuite d'itérer pour faire des corrections.
@@ -121,13 +121,13 @@ des règles pour guider les modifications comme respecter les ADR du projet, et 
 Le premier point est que ce soit au niveau de la qualité du code généré ou même sur le respect des spécifications, la génération n'a
 jamais été satisfaisante du premier coup. Les itérations avaient pour objectif de corriger ou de compléter la génération
 de la fonctionnalité. Ce n'était donc pas des itérations d'un point de vue "agile", puisque les itérations ne servaient pas
-à construire de manière progressive la fonctionnalité. Les erreurs de génération et les dérive nous ont servis de signaux
-pour corrgier ou complèter les fichiers de contexte.
+à construire de manière progressive la fonctionnalité. Les erreurs de génération et les dérives nous ont servi de signaux
+pour corriger ou compléter les fichiers de contexte.
 
 #### Premières tentatives
 
 Lors de nos premières tentatives, nous avons constaté que le code généré ne faisait pas passer les tests générés. Étonnamment
-c'est un point que nous n'avions pas pensé à formaliser dans le contexte ou dans les skills. Ce point qui nous paraissait évident
+c'est un point que nous n'avions pas pensé à formaliser dans le contexte ou dans les _skills_. Ce point qui nous paraissait évident
 était implicite. Au-delà de ça, les tests n'étaient pas exactement ceux listés dans les spécifications, parfois certains manquaient et parfois des tests
 qui n'étaient pas listés étaient ajoutés. Sans suite de tests fiable, les corrections se sont faites sans le filet de sécurité
 que sont censés offrir les tests.
@@ -139,11 +139,11 @@ Nous avons fait plusieurs itérations pour pousser le LLM dans la direction que 
 L'observation que je peux faire, c’est que les itérations n’ont pas forcément été un moyen de cadrer le LLM
 pour l'amener là où nous voulions. Il y a eu des dérives à plusieurs reprises, parfois les corrections étaient incomplètes,
 pas les bonnes et surtout pas toujours limitées aux fichiers que nous traitions. On a constaté ces comportements sur différentes
-corrections, que ce soient des corrections de signature de fonctions, du refactoring "pur", ou des tentatives de compléter des implémentations
+corrections, que ce soient des corrections de signature de fonctions, du _refactoring_ "pur", ou des tentatives de compléter des implémentations
 partielles. Il a été parfois difficile, voire impossible, d'amener l'agent là où nous voulions aller. Il y avait une perte de
 cohérence au fur et à mesure des différentes tentatives de correction. À plusieurs reprises, nous avons
 essayé de nettoyer le contexte de génération de code en démarrant une nouvelle session avec l'agent. Cela n’a pas été significativement mieux.
-Nous n’avons pas toujours réussi à atteindre le résultat attendu, malgré les reformulations des prompts et
+Nous n’avons pas toujours réussi à atteindre le résultat attendu, malgré les reformulations des _prompts_ et
 les multiples corrections apportées aux éléments de contexte. Toutes ces répétitions ont été particulièrement frustrantes et fatigantes.
 
 Ces moments de frustration ont été le sujet d'un constat partagé avec un collègue: Tenter de décrire la correction en langage
@@ -159,7 +159,7 @@ c'étaient des généralisations de règles vraies localement mais pas sur toute
 #### Révision du workflow
 
 Le bilan de nos premières générations n'était pas satisfaisant de notre point de vue. Lors des générations suivantes, nous avons essayé
-de revoir notre workflow, premièrement nous avons décidé de découper un peu mieux le contexte fourni au LLM en ayant plusieurs
+de revoir notre _workflow_, premièrement nous avons décidé de découper un peu mieux le contexte fourni au LLM en ayant plusieurs
 fichiers markdown dans le projet. Le fichier CLAUDE.md à la racine servant à lister les autres fichiers markdown.
 Nous avons un fichier ARCHITECTURE-RULES.md dans lequel nous avons inscrit les règles d'architecture globales par exemple que le domaine
 doit dépendre d'interfaces et pas d'implémentations pour les éléments d'infrastructure, ainsi que le découpage par couche d'architecture
@@ -178,16 +178,16 @@ de faire varier les pratiques et les patterns pour avoir la représentation du m
 contexte. La mise en place de tous ces documents qui représentent l'ensemble de nos pratiques et notre compréhension du métier,
 a été la source de beaucoup de discussions, notamment sur les éléments où l'équipe manquait d'alignement.
 
-Nous avons aussi pris le temps de modifier et customiser les `skills` utilisés par le LLM pour la génération, la revue et
+Nous avons aussi pris le temps de modifier et customiser les _skills_ utilisés par le LLM pour la génération, la revue et
 la création des spécifications, et de les rajouter au projet pour les versionner.
 
-On a aussi questionné notre approche, en découpant la génération en plus petit incrément. L'idée était de découper la `user stories`
+On a aussi questionné notre approche, en découpant la génération en plus petit incrément. L'idée était de découper la _user stories_
 en plus petits cas d'utilisation et de générer le code de ces cas d'utilisation par étape. Le but étant de diminuer la complexité
 de la tâche et la quantité de code généré pour revoir efficacement le code et détecter les dérives plus tôt.
 
 #### Deuxième bilan
 
-Une fois notre nouveau workflow défini, nous avons repris le développement de fonctionnalité en utilisant Claude. Malgré
+Une fois notre nouveau _workflow_ défini, nous avons repris le développement de fonctionnalité en utilisant Claude. Malgré
 tous les efforts pour rendre explicites beaucoup de nos pratiques et nos choix et l'approche avec des itérations plus
 courtes et plus simples la génération ne s'est pas significativement améliorée. On a continué à observer des dérives et un
 manque de cohérence sur la génération. Le modèle n'appliquant pas certaines pratiques tout le long des générations de code.
@@ -204,6 +204,8 @@ dans les tests, mais il n'y avait pas les assertions permettant de vérifier le 
 Pendant une de ces petites itérations, nous avons ajouté l'utilisation d'un logger et le LLM en générant le code a ajouté
 des tests sur l'utilisation du logger. Tous ces comportements rendent la fiabilité des tests générés discutable et ont impliqué
 une quantité importante de correction et de relecture.
+
+Une observation complémentaire que nous avons partagée en équipe : parfois, sur des problèmes assez simples et non critiques, notre niveau de motivation pour les résoudre était assez bas. La capacité des LLM à produire des solutions moyennes (acceptables, mais pas exemptes de défauts) ne donnait pas envie d’accorder du temps à certains problèmes, ce qui nous demandait parfois un effort plus grand qu’à l’accoutumé.
 
 #### Cohérence et biais d’entraînement
 
@@ -225,7 +227,7 @@ que le modèle au début de la génération a utilisé fp-ts, donc il connaît c
 l'utilisant. Pourtant, la librairie n'a pas été utilisée sur toute la génération malgré une utilisation plutôt équilibrée
 entre les if et les Either dans notre base de code - une recherche avec un grep donnait 281 occurrences de if contre 253 occurrences de Either.
 
-Mon hypothèse est que notre capacité à maîtriser la génération de code de façon précise est dépendante de la cohérence de contexte (code, prompt, skills, etc)
+Mon hypothèse est que notre capacité à maîtriser la génération de code de façon précise est dépendante de la cohérence de contexte (code, _prompt_, _skills_, etc)
 qui n'est pas facilement maîtrisable, et qu'en plus le contexte n'est pas l'unique élément impactant la génération. Les entraînements et le code généré par exemple
 vont aussi impacter la génération et faciliter ou non la production de certains patterns.
 
@@ -244,7 +246,7 @@ cela implique de passer beaucoup de temps à uniformiser le code, et donc moins 
 chose de valeur pour les utilisateurs.
 
 Cette hétérogénéité a un impact sur la cohérence globale du contexte de génération de code. Le code lu par l'agent peut être
-contradictoire avec les instructions du prompt et les standards d'équipe. Si ces incohérences augmentent la probabilité
+contradictoire avec les instructions du _prompt_ et les standards d'équipe. Si ces incohérences augmentent la probabilité
 que le modèle utilise des patterns différents alors on augmente la probabilité de le faire dériver et donc d'avoir une implémentation
 utilisant les mauvais patterns.
 
@@ -271,7 +273,7 @@ d'une trentaine de lignes de code.
 
 #### Reprise de projet et génération
 
-Une fonctionnalité que j'ai développée en pair programming devait être implémentée dans un service ayant été initié par une autre équipe.
+Une fonctionnalité que j'ai développée en _pair programming_ devait être implémentée dans un service ayant été initié par une autre équipe.
 Ce développement a été l'occasion d'utiliser la génération de code en ayant une connaissance technique et fonctionnelle partielle du service.
 
 La principale difficulté dans ce contexte était de vérifier et de s'assurer que les changements étaient corrects. À chaque modification,
@@ -297,10 +299,10 @@ production. L'aspect que j'ai trouvé constant pour la génération est la perte
 Je me demande si sur un projet que je connais, je peux finir par ne plus connaître le code, mais aussi à quelle vitesse ça peut arriver.
 Le risque que j'identifie pour le moment c'est la facilité à générer du code rende la perte d'appropriation insidieuse.
 
-### 4. Analyse statique
+### Analyse statique
 
 Lors de l’expérimentation, nous avons été confrontés à une fuite de mémoire sur une application en production. La fuite
-n’était pas importante et les déploiements réguliers ont empêché l’application de détecter la fuite rapidement. C’est
+n’était pas importante et les déploiements réguliers nous ont empêché de détecter la fuite rapidement. C’est
 surtout son accumulation progressive dans le temps qui a conduit à une consommation mémoire excessive et qui a fini par
 produire des erreurs _out of memory_.
 
@@ -342,19 +344,64 @@ Personnellement, je trouve que c’est une manière intéressante d’aborder l�
 leur force et en essayant de les utiliser dans un contexte adapté. Les mêmes caractéristiques peuvent produire des effets
 opposés selon le contexte.
 
-Cette réalisation m’a fait me questionner sur mon positionnement quant à l’utilisation des LLMs pour les revues de code.
-À l’origine, je ne suis pas particulièrement convaincu par leur utilisation pour les revues, qui sont d’une certaine manière
-une analyse du code. J’ai essayé de mettre le doigt sur ce qui fait que je ne perçois pas leur usage dans ces deux contextes
-de la même manière.
+### Revues de code
 
-Pour moi, la revue de code est un processus assez subjectif, dépendant des pratiques d’équipe, des conventions et du contexte
-technique et métier. Il n’existe pas toujours de réponse objectivement meilleure. Bien qu’on puisse être d'accord sur certains
+Si à l'origine je ne suis pas particulièrement convaincu par l'utilisation des LLMs pour faire les revues de code, les résultats
+sur la détection de la fuite mémoire m'ont poussé à tester une nouvelle fois les LLMs sur les revues de code.
+
+Le fonctionnement pour les revues était, quand le document était présent, d'utiliser le fichier de spécifications construit
+en première étape du _workflow_ et de lancer la revue de code sur la branche git contenant les modifications.
+Si effectivement l'agent a produit des revues en détectant des défauts, les résultats sont restés discutables. Le LLM a détecté
+des erreurs de type qui n'étaient pas attrapées par le langage (mais non cassantes), des incohérences de nommage, et certains
+bugs. Les revues sont restées assez superficielles. Parfois, malgré le fichier de spécifications encadrant les modifications
+et spécifiant que l'implémentation serait partielle, l'analyse du LLM donnait comme retour que l'implémentation était incomplète.
+Il n'y a pas eu de retours structurants sur les défauts de design existants ou introduits, ni sur les tests qui n'étaient pas toujours complets ou corrects. Les revues ont été assez insatisfaisantes : en se concentrant uniquement
+sur les éléments remontés par le LLM, le code n'aurait pas été acceptable par rapport aux standards de l'équipe.
+
+Pour éprouver un peu plus les LLMs, j'ai décidé de les tester sur du code ayant des défauts de design que j'avais déjà identifiés
+pour voir si l'analyse serait plus intéressante.
+Pour une fonctionnalité, nous avons dû faire évoluer la gestion des rôles et des permissions de notre application. Le code de notre application
+avait plusieurs défauts, notamment plusieurs niveaux d'indirection qui rendaient complexe la compréhension des rôles, ainsi qu'un couplage fort dans la création des rôles
+reposant sur l'hypothèse que le même rôle dans plusieurs filiales aurait toujours les mêmes permissions. Cette hypothèse s'est
+révélée fausse et les évolutions demandaient de faire évoluer la manière de construire les rôles. Pour tester les revues, j'ai fait deux implémentations de cette petite
+fonctionnalité : la première, simpliste, introduisait une nouvelle manière de créer un rôle, mais ne s'attaquait pas au problème de couplage et d'indirections.
+La seconde définissait les rôles comme une configuration par filiale en limitant les indirections et en permettant de faire évoluer
+les configurations des rôles indépendamment les unes par rapport aux autres. Dans les deux cas, mon objectif était de ne pas
+capitaliser sur le couplage existant.
+
+L'idée était de lancer les revues sur les deux branches, de comparer les résultats et de voir ce que remontait le LLM.
+Dans les deux cas, ce qui a été remonté par le LLM était que les implémentations introduisaient une incohérence dans la manière de
+gérer les rôles (le reste des retours restant encore une fois superficiel). Ce qui est objectivement vrai. C'est intéressant de noter que le LLM
+n'a pas analysé ces modifications comme des tentatives de gérer des erreurs de design ou de compréhension métier, qui rendaient les
+évolutions du code plus complexes en créant du couplage. L'analyse n'a pas déterminé que ces modifications étaient volontaires.
+Le code n'est pas toujours suffisant pour exprimer l'intention de certaines modifications. Que ce soit pour un LLM ou une personne, connaître
+l'intention du développeur n'est jamais évidente en se basant uniquement sur le code. Généralement, quand je me lance sur ce genre de sujet,
+j'ai tendance à discuter d'abord avec des collègues pour voir ce qu'ils pensent de la solution et s'il y a bien un problème.
+Les revues sont donc plus une occasion de challenger l'implémentation que la direction prise pour l'implémentation.
+La revue du LLM n'a pas été aussi intéressante, puisque le LLM s'est contenté de labelliser ces modifications avec un niveau de criticité HIGH.
+Cette introduction d'une forme de duplication n'a pas été détectée comme une tentative d'adresser un problème de design.
+Le LLM a privilégié la cohérence par rapport aux corrections apportées, ce qui peut être une position acceptable quand c'est
+un choix conscient. La seconde observation que je fais, c'est que le LLM a soulevé des points, mais pas tous, et cette revue est incomplète ;
+elle n'est donc pas suffisante pour prendre la décision à laquelle une revue est censée répondre : « Est-ce que je suis d'accord pour maintenir
+cette version du code en production ? »
+C'est, selon moi, le problème le plus important : dans ce contexte, je ne veux pas réduire un espace de recherche, je veux détecter tous les défauts
+potentiels, pas nécessairement tous les adresser, mais en avoir conscience. Faire uniquement une revue via un LLM ne me permet pas d'avoir ce niveau
+de compréhension du code. Il y a un parallèle intéressant à faire avec les revues faites sur GitHub ou GitLab, qui mettent en évidence
+uniquement les changements (diff changes). En se concentrant uniquement sur le changement, on peut ne pas voir comment les changements
+impactent le code globalement, et c'est pour ça que régulièrement en revue on affiche un peu plus de code que ce qui est montré par les diff changes.
+C'est le même problème si on se concentre uniquement sur les problèmes remontés par le LLM. Le dernier point que j'aborderais,
+c'est qu'en fonction de la maturité technique des personnes, elles pourraient être amenées à appliquer les modifications suggérées par le LLM
+sans se poser de questions, notamment avec la facilité qu'on a à demander à un LLM de faire des modifications, et comme je l'ai évoqué
+plus tôt, toutes les suggestions du LLM ne sont pas pertinentes.
+
+Pour moi, la revue de code est un processus assez subjectif, dépendant des pratiques d’équipe, de la manière de gérer et de construire les rôles,
+et du contexte technique et métier. Il n’existe pas toujours de réponse objectivement meilleure. Bien qu’on puisse être d'accord sur certains
 principes de qualité, l’interprétation de ces principes varie en fonction des personnes et des équipes. Un exemple que je
 trouve parlant est la tension entre les notions de couplage et de duplication. S'il y a plus ou moins un consensus pour
 dire que le couplage est risqué, la duplication n'est pas toujours vue comme un moyen de réduire le couplage (DRY). On peut
 aussi accepter des choses contradictoires dans le code en fonction des modules et des intentions. Tous ces éléments peuvent
 amener du bruit dans l’analyse d’un LLM, et le bruit peut nuire à notre capacité à relire le code et devenir contre-productif.
-La revue a aussi d’autres objectifs. Revoir le code, c’est aussi se l’approprier automatiser la revue c'est augmenter la dette
+La revue a aussi d’autres objectifs. Revoir le code, c’est aussi se l’approprier ; automatiser la revue, c'est augmenter la dette
 cognitive. Les revues sont aussi l’opportunité de pointer des sujets sur lesquels l’équipe n’est pas alignée.  
 En prenant en compte tous ces paramètres, automatiser les revues ne me semble pas forcément une approche intéressante.
 
@@ -371,14 +418,34 @@ nécessiter une exécution à chaque pipeline.
 
 ### Conclusion
 
-TODO:
-Dans ce contexte
-Plus utile sur de l'analyse que sur de la génération
-Utilise pour réduire un espace de recherche, pas forcément nécessaire d'automatiser ? (comme des tests de charge).
-Utilisation de l'IA probablement intéressante, mais pas forcément sous la forme LLMs ? sans le langage naturel qui peut être superflu pour de l'analyse statique
-Utilisation de patterns peu courants pour un langage rend difficile d'avoir une "longue" génération.
-Observation partagée entre les membres de l'équipe : l'usage du LLM nous rend fainéants par moment, il est tellement facile de demander des choses au LLM que nous avons
-plus envie de parcourir les docs officiels et de réfléchir par nous-mêmes pour résoudre certains problèmes.
-Gros besoin d'alignement pour avoir un contexte cohérent, et besoin de permettre à chacEstèun d'avoir aussi ses pratiques. Ça ne fait pas disparaître
-le besoin de discussion : pas l'outil en soi, mais la nécessité de co-construire le contexte.
-À compléter.
+Ces quelques semaines de tests ont été riches d'ensignement sur l'utilisation des LLMs. Ce que je constate, c'est que fonction
+de l'exercice et surtout de l'exigence attendue l'utilisation d'un LLMs peut passer de pratique à contre productive. Ces expériences
+m'ont permis de formaliser ces cas d'utilisations. Les tâches d'analyse statique pour de la recherche sur des éléments spécifique,
+(fuites mémoires, etc) peuvent bénéficier de l'utilisation d'un LLMs, puisque qu'il est possible d'orienter les recherches.
+Le LLMs indique et les humains vérifient, c'est une dynamique qui permet de garder le controller sur ce qui est fait, et c'est qui
+rend l'usage acceptable. Utiliser une LLMs pour explorer des solutions reste intéressant tant qu'on a conscience que les piste proposer
+seront incomplètes et parfois fausses et dans certains cas génératices de bruits. Si c'est contraintes sont acceptables alors l'utilisation
+est envisageable.
+
+Sur les étapes de génération de code, je dresserais un constat moins positif. Que se soit pour le code ou les tests, je suis rarement
+parvenue à obtenir des implémentations ou des tests rapidement. La génération a été la source de beaucoup de rattrapage pas toujours
+facile et parfois assez frustrant. Les implémenataions incomplètes, incohérentes les mauvais tests et la duplication sont pour moi des critères
+rendant la génération de code pas suffisament fiable pour être véritablement industrialisé. Les mécanismes palliatifs pour ses soucis
+rendent absolument indispensable les relectures et la compréhension du code, sauf que l'utilisation des LLMs sur la génération
+reduit la compréhension et l'appropriation du code. Plus l'utilisation des LLMs est importante moins l'appropriation du code est facile,
+mais plus elle devient indispensable rapidement. Plus on génère de code plus un augmente le besoin d'appropriation du code et surtout
+la quantité de code à s'approprié, la problématique étant que plus on retarde c'est appropriation plus elle devient difficile.
+
+Pour la partie spécification, bien qu'intéressante l'utilisation du LLMs n'est pas forcément d'un grand secours car il existe déjà
+des pratiques et des outils permettant de s'assurer d'avoir des spécifications complète qui contraitement au LLMs ne complète pas
+les spécifications de facon autonome. L'utilisation des LLMs ne fait pas disparaitre les besoins de discussions et d'alignement au contraire
+elles les rends plus indispensable, sans forcément le rendre visible puisque parfois les éléments ambigu ou manquant sont compléter
+par le LLM. Le langage naturelle fournit un faux sentiement de compréhension mutuelle qui est déroutant et parfois trompeur, ce qui m'empèche
+de veritablement avoir envie de l'intégrer pleinement à cette étape du développement.
+
+Le bilan que je tire est assez mesurer et ne reflète pas nécessairement la révolution promise par l'utilisation des LLMs,
+mais c'est surtout les gains de productivité que je n'ai pas observé, globalement pour garder la même compréhension du projet
+j'ai eu le sentiement de devoir fournir plus d'efforts sans pour autant d'avoir produit des solutions plus intéresante ou plus qualitative
+que ce que j'ai pu faire sans IA. Bien qu'aujourd'hui j'ai une vision plus claire d'ou je trouve utilise l'utilisation des agents IA,
+les hallucinations, les erreurs, les incohérences me conforte surtout la diminution de ma capacité a m'approprier du code
+me pousse cantonner leur utilisation pour des tâches ponctuelle ou alors n'ayant pas d'impact sur ma compréhension du code.
