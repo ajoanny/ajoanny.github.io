@@ -118,15 +118,15 @@ Une fois satisfait des spécifications, nous nous sommes lancés dans la génér
 de lancer la génération à partir des spécifications et ensuite d'itérer pour faire des corrections.
 
 En plus du fichier de spécifications, nous avions des fichiers CLAUDE.md, ENGINEERING_RULES.md contenant respectivement
-des règles pour guider les modifications comme respecter les ADR du projet, et des informations sur les standards d'équipes.
+des règles pour guider les modifications comme respecter les ADR du projet et des informations sur les standards d'équipes.
+
+**Premières tentatives**
 
 Le premier point est que ce soit au niveau de la qualité du code généré ou même sur le respect des spécifications, la génération n'a
 jamais été satisfaisante du premier coup. Les itérations avaient pour objectif de corriger ou de compléter la génération
 de la fonctionnalité. Ce n'était donc pas des itérations d'un point de vue "agile", puisque les itérations ne servaient pas
 à construire de manière progressive la fonctionnalité. Les erreurs de génération et les dérives nous ont servi de signaux
 pour corriger ou compléter les fichiers de contexte.
-
-#### Premières tentatives
 
 Lors de nos premières tentatives, nous avons constaté que le code généré ne faisait pas passer les tests générés. Étonnamment
 c'est un point que nous n'avions pas pensé à formaliser dans le contexte ou dans les _skills_. Ce point qui nous paraissait évident
@@ -142,7 +142,7 @@ L'observation que je peux faire, c’est que les itérations n’ont pas forcém
 pour l'amener là où nous voulions. Il y a eu des dérives à plusieurs reprises, parfois les corrections étaient incomplètes,
 pas les bonnes et surtout pas toujours limitées aux fichiers que nous traitions. On a constaté ces comportements sur différentes
 corrections, que ce soient des corrections de signature de fonctions, du _refactoring_ "pur", ou des tentatives de compléter des implémentations
-partielles. Il a été parfois difficile, voire impossible, d'amener l'agent là où nous voulions aller. Il y avait une perte de
+partielles. Il a parfois été difficile, voire impossible, d'amener l'agent là où nous voulions aller. Il y avait une perte de
 cohérence au fur et à mesure des différentes tentatives de correction. À plusieurs reprises, nous avons
 essayé de nettoyer le contexte de génération de code en démarrant une nouvelle session avec l'agent. Cela n’a pas été significativement mieux.
 Nous n’avons pas toujours réussi à atteindre le résultat attendu, malgré les reformulations des _prompts_ et
@@ -152,11 +152,11 @@ Ces moments de frustration ont été le sujet d'un constat partagé avec un coll
 naturel est fastidieux.
 Le langage naturel étant parfois ambigu, décrire une implémentation n’est pas toujours évident, ce n’est pas un exercice que nous
 faisons régulièrement. Faire une description en langage naturel était parfois plus complexe que l’écriture du code. Dans
-certains cas écrire le code devient plus facile que de faire une description en langage naturel. Pour pallier ces difficultés
+certains cas écrire le code devient plus facile que de faire une description en langage naturel. Pour pallier ces difficultés,
 nous avons essayé de faire les corrections à la main et de laisser l'agent analyser les corrections pour en tirer des règles.
 On a eu cette approche à plusieurs reprises, personnellement, j'ai trouvé cette approche amusante et moins frustrante. J'ai apprécié
-d'être moins passif dans la production de code. Le contexte généré par Claude n'était pas toujours pertinent et parfois
-c'étaient des généralisations de règles vraies localement mais pas sur toute la base de code.
+d'être moins passif dans la production de code. Malgré, ces points positifs, le contexte généré par Claude n'était pas toujours
+pertinent et étaient quelquefois des généralisations de règles vraies localement, mais pas sur toute la base de code.
 
 ### Révision du workflow
 
@@ -175,21 +175,21 @@ Nous avons aussi un fichier PRINCIPLES.md définissant les règles à suivre par
 Notre architecture étant découpée en deux couches principales, (domain et infra) chaque dossier contient son propre CLAUDE.md
 définissant les règles de nommage et les patterns utilisés dans cette couche.
 
-Notre code étant découpé en sous-domaines, l'idée étant de permettre d'avoir ce fichier par sous-domaine pour permettre
-de faire varier les pratiques et les patterns pour avoir la représentation du métier la plus utile possible dans chaque
+Notre code étant découpé en sous-domaines, l'idée était de permettre d'avoir aussi des fichiers par sous-domaine pour
+faire varier les pratiques et les patterns et avoir la représentation du métier la plus utile possible dans chaque
 contexte. La mise en place de tous ces documents qui représentent l'ensemble de nos pratiques et notre compréhension du métier,
 a été la source de beaucoup de discussions, notamment sur les éléments où l'équipe manquait d'alignement.
 
 Nous avons aussi pris le temps de modifier et customiser les _skills_ utilisés par le LLM pour la génération, la revue et
 la création des spécifications, et de les rajouter au projet pour les versionner.
 
-On a aussi questionné notre approche, en découpant la génération en plus petit incrément. L'idée était de découper la _user stories_
+On a aussi questionné notre approche, en découpant la génération en plus petit incrément. L'objectif était de découper la _user stories_
 en plus petits cas d'utilisation et de générer le code de ces cas d'utilisation par étape. Le but étant de diminuer la complexité
 de la tâche et la quantité de code généré pour revoir efficacement le code et détecter les dérives plus tôt.
 
 ### Deuxième bilan
 
-Une fois notre nouveau _workflow_ défini, nous avons repris le développement de fonctionnalité en utilisant Claude. Malgré
+Une fois notre nouveau _workflow_ défini, nous avons repris le développement de fonctionnalité en utilisant Claude Code. Malgré
 tous les efforts pour rendre explicites beaucoup de nos pratiques et nos choix et l'approche avec des itérations plus
 courtes et plus simples la génération ne s'est pas significativement améliorée. On a continué à observer des dérives et un
 manque de cohérence sur la génération. Le modèle n'appliquant pas certaines pratiques tout le long des générations de code.
@@ -203,11 +203,18 @@ que le code généré est fonctionnel, n'était pas fiable. Ils étaient réguli
 correctement le code. Parfois, il manquait des vérifications, dans d'autres cas les tests vérifiaient plusieurs choses.
 Cette particularité fait qu'utiliser un indicateur comme la couverture de test nous aurait induit en erreur, car le code était bien exécuté
 dans les tests, mais il n'y avait pas les assertions permettant de vérifier le comportement du code.
-Pendant une de ces petites itérations, nous avons ajouté l'utilisation d'un logger et le LLM en générant le code a ajouté
-des tests sur l'utilisation du logger. Tous ces comportements rendent la fiabilité des tests générés discutable et ont impliqué
-une quantité importante de correction et de relecture.
+Pendant une de ces petites itérations, nous avons ajouté l'utilisation d'un logger, le LLM en générant le code a ajouté
+des tests sur l'utilisation du logger. Ce comportement est un bon exemple de pourquoi, les tests ne sont pas fiables. Le fait
+que le logger ne soit appelé n'est pas une indication que le code fonctionne et tester les logger n'est pas en adéquation
+avec les standards l'équipe. Tous ces comportements rendent la fiabilité des tests générés discutable et surtout ne permettent pas
+de garantir que le code généré fonctionne.
 
-Une observation complémentaire que nous avons partagée en équipe : parfois, sur des problèmes assez simples et non critiques, notre niveau de motivation pour les résoudre était assez bas. La capacité des LLM à produire des solutions moyennes (acceptables, mais pas exemptes de défauts) ne donnait pas envie d’accorder du temps à certains problèmes, ce qui nous demandait parfois un effort plus grand qu’à l’accoutumé.
+Une observation complémentaire que nous avons partagée en équipe et que parfois, sur des problèmes assez simples et non critiques,
+notre niveau de motivation pour les résoudre était assez bas. La capacité des LLM à produire des solutions moyennes (acceptables,
+mais pas exemptes de défauts) ne donnait pas envie d’accorder du temps à ces problèmes. La facilité d'utilisation du LLMs
+ne donnait pas la sensation de tirer la qualité vers le haut, mais nous poussait à accepter des solutions moins
+"qualitative". Cette observation, me laisse penser que l'usage des LLMs, n'aura pas forcément été un élément moteur pour
+améliorer la qualité de nos développements.
 
 ### Cohérence et biais d’entraînement
 
