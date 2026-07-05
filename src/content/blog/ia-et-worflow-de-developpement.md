@@ -283,10 +283,11 @@ d'une trentaine de lignes de code.
 ### Reprise de projet et génération
 
 Une fonctionnalité que j'ai développée en _pair programming_ devait être implémentée dans un service ayant été initié par une autre équipe.
-Ce développement a été l'occasion d'utiliser la génération de code en ayant une connaissance technique et fonctionnelle partielle du service.
+Ce développement a été l'occasion d'utiliser la génération de code en ayant une connaissance technique et fonctionnelle partielle du service
+sur lequel nous devions travailler.
 
 La principale difficulté dans ce contexte était de vérifier et de s'assurer que les changements étaient corrects. À chaque modification,
-il fallait reconstruire le contexte, retrouver des connaissances implicites que nous n’avions pas initialement, et vérifier la
+il fallait reconstruire le contexte, retrouver des connaissances implicites que nous n’avions pas initialement et vérifier la
 cohérence globale dans le code. Cela impliquait beaucoup de relecture et d’exploration du code. En développant, en cherchant où
 écrire le code et comment des choses similaires sont faites, on commence à construire une compréhension du projet. En générant le code,
 ni moi ni mon collègue n'avons commencé à comprendre le code avant la génération.
@@ -294,19 +295,20 @@ ni moi ni mon collègue n'avons commencé à comprendre le code avant la génér
 Étant donné que nous n’avions pas une compréhension complète de l’application, nous nous
 sommes souvent retrouvés à lancer l’application pour vérifier son comportement. Malheureusement, le code
 n'était pas toujours fonctionnel. Il fallait à la fois comprendre ce qui avait été fait, pourquoi ça ne marchait pas et ce qui
-différait de la base de code. De même, il était plus difficile de détecter si le LLM avait omis certaines étapes importantes.
+différait du code existant. Il était plus difficile de détecter si le LLM avait omis certaines étapes importantes.
 
 Ce que je retiens principalement de ce contexte, c'est que la génération ne m'a pas donné le sentiment d'aller plus vite.
 Ce serait assez difficile à démontrer, mais je pense que j'aurais été plus vite sans l'IA, notamment parce que je me serais
 inspiré de code existant pour m'assurer de la cohérence du code plus tôt. La grande différence que je constate c'est que la revue
-a été plus dure que d'accoutumé, puisque c'est à ce moment que l'on s'est approprié le code.
+a été plus dure que d'accoutumé, puisque c'est à ce moment que l'on a "découvert" le code.
 
 Malgré les itérations et les corrections de contexte, la génération a toujours demandé des rattrapages.
 Ces corrections ne m'ont pas donné le sentiment d'être véritablement productif. Essayer d'utiliser les LLMs pour générer
 les tests me semble un peu optimiste dans la mesure où c'est le même outil avec les mêmes limites qui produit puis évalue la
-production. L'aspect que j'ai trouvé constant pour la génération est la perte d'appropriation du code. Ce qui m'a frappé, c'est qu'après avoir utilisé les LLMs sur un projet que je connais mal, je n'avais pas le sentiment de mieux connaître le projet.
+production. L'aspect que j'ai trouvé constant pour la génération est la perte d'appropriation du code. Ce qui m'a frappé,
+c'est qu'après avoir utilisé les LLMs sur un projet que je connais mal, je n'avais pas le sentiment de mieux connaître le projet.
 Je me demande si sur un projet que je connais, je peux finir par ne plus connaître le code, mais aussi à quelle vitesse ça peut arriver.
-Le risque que j'identifie pour le moment c'est la facilité à générer du code rende la perte d'appropriation insidieuse.
+Le risque que j'identifie pour le moment, c'est que la facilité à générer du code rende la perte d'appropriation insidieuse.
 
 ### Analyse statique
 
