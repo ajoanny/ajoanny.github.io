@@ -9,19 +9,19 @@ tags:
 description: Retour d'expérience sur l'intégration de l'IA dans le cycle de développement sur un projet en production.
 ---
 
-Ça fait plusieurs mois maintenant que j’essaie de trouver une manière pertinente d’intégrer les LLM dans mes pratiques de
-développement. La question qui me guide est simple : est-il possible de le faire sans dégrader la maintenabilité,
-la compréhension et l’ownership du code ?
+Depuis plusieurs mois maintenant, j'essaie de trouver une manière pertinente d'intégrer les LLM dans mes pratiques de développement.
+Toutes mes expérimentations sont animées par une question, est-il possible d'intégrer les LLMs dans le développement sans
+dégrader la maintenabilité, la compréhension et l'ownership du code ?
 
-Jusqu’à présent, mes terrains d’expérimentation se sont limités aux _katas_, en tentant d’éprouver la génération d’implémentation,
-la génération de tests, la pratique du TDD et le _refactoring_. Même sur des sujets simplistes, les résultats ont été discutables
+Jusqu'à présent, mes terrains d'expérimentation se sont limités aux katas, en tentant d'éprouver la génération d'implémentation,
+la génération de tests, la pratique du TDD et le refactoring. Même sur des sujets simplistes, les résultats ont été discutables
 en termes de fiabilité, de qualité et de répétabilité.
 
-J’ai eu cette fois l’opportunité de tester l’utilisation des LLM sur un projet en production. Ce changement de contexte a
-été l’occasion de valider la pertinence de mes observations précédentes tout en apportant un cadre plus proche de la réalité.
+J'ai eu cette fois l'opportunité de tester l'utilisation des LLM sur un projet en production. Ce changement de contexte a
+été l'occasion de valider la pertinence de mes observations précédentes tout en ayant un cadre plus proche de la réalité.
 
-À travers cet article, je cherche à partager les expériences faites avec mes collègues sur l'usage des LLM dans le cadre du développement,
-et les réflexions sur les raisons des résultats que nous avons obtenus.
+À travers cet article, je cherche à partager les expériences faites avec mes collègues sur l'usage des LLM dans le cadre
+du développement, et les réflexions sur les raisons des résultats que nous avons obtenus.
 
 ## Table of contents
 
@@ -205,7 +205,7 @@ Pendant une de ces petites itérations, nous avons ajouté l'utilisation d'un lo
 des tests sur l'utilisation du logger. Tous ces comportements rendent la fiabilité des tests générés discutable et ont impliqué
 une quantité importante de correction et de relecture.
 
-Une observation complémentaire que nous avons partagée en équipe : parfois, sur des problèmes assez simples et non critiques, notre niveau de motivation pour les résoudre était assez bas. La capacité des LLM à produire des solutions moyennes (acceptables, mais pas exemptes de défauts) ne donnait pas envie d’accorder du temps à certains problèmes, ce qui nous demandait parfois un effort plus grand qu’à l’accoutumé.
+Une observation complémentaire que nous avons partagée en équipe : parfois, sur des problèmes assez simples et non critiques, notre niveau de motivation pour les résoudre était assez bas. La capacité des LLM à produire des solutions moyennes (acceptables, mais pas exemptes de défauts) ne donnait pas envie d’accorder du temps à certains problèmes, ce qui nous demandait parfois un effort plus grand qu’à l’accoutumé.
 
 #### Cohérence et biais d’entraînement
 
