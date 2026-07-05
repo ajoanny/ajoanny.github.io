@@ -436,32 +436,40 @@ nécessiter une exécution à chaque pipeline.
 
 Ces quelques semaines de tests ont été riches d'enseignement sur l'utilisation des LLMs. Ce que je constate, c'est que fonction
 de l'exercice et surtout de l'exigence attendue l'utilisation d'un LLMs peut passer de pratique à contre productive. Ces expériences
-m'ont permis de formaliser ces cas d'utilisations. Les tâches d'analyse statique pour de la recherche sur des éléments spécifique,
+m'ont permis de formaliser ces cas d'utilisations. Les tâches d'analyse statique pour de la recherche sur des éléments spécifiques,
 (fuites mémoires, etc) peuvent bénéficier de l'utilisation d'un LLMs, puisque qu'il est possible d'orienter les recherches.
 Le LLMs indique et les humains vérifient, c'est une dynamique qui permet de garder le controller sur ce qui est fait, et c'est qui
-rend l'usage acceptable. Utiliser une LLMs pour explorer des solutions reste intéressant tant qu'on a conscience que les piste proposer
-seront incomplètes et parfois fausses et dans certains cas génératices de bruits. Si c'est contraintes sont acceptables alors l'utilisation
+rend l'usage acceptable. Utiliser une LLMs pour explorer des solutions reste intéressant tant qu'on a conscience que les pistes proposées
+seront incomplètes et parfois fausses et dans certains cas génératices de bruits. Si ces contraintes sont acceptables alors l'utilisation
 est envisageable.
 
-Sur les étapes de génération de code, je dresserais un constat moins positif. Que se soit pour le code ou les tests, je suis rarement
-parvenue à obtenir des implémentations ou des tests rapidement. La génération a été la source de beaucoup de rattrapage pas toujours
-facile et parfois assez frustrant. Les implémenataions incomplètes, incohérentes les mauvais tests et la duplication sont pour moi des critères
-rendant la génération de code pas suffisament fiable pour être véritablement industrialisé. Les mécanismes palliatifs pour ses soucis
-rendent absolument indispensable les relectures et la compréhension du code, sauf que l'utilisation des LLMs sur la génération
-reduit la compréhension et l'appropriation du code. Plus l'utilisation des LLMs est importante moins l'appropriation du code est facile,
+Sur les étapes de génération de code, je dresserais un constat moins positif. Que ce soit pour le code ou les tests, je suis rarement
+parvenue à obtenir des implémentations ou des tests acceptables rapidement. La génération a été la source de beaucoup de rattrapage pas toujours
+facile et parfois assez frustrant. Les implémentations incomplètes, incohérentes, les mauvais tests et la duplication sont pour moi des critères
+rendant la génération de code pas suffisamment fiable pour être véritablement industrialisé.
+Ces limitations rendent absolument indispensable les relectures et la compréhension du code, sauf que l'utilisation des LLMs sur la génération
+réduit la compréhension et l'appropriation du code. Plus l'utilisation des LLMs est importante moins l'appropriation du code est simple,
 mais plus elle devient indispensable rapidement. Plus on génère de code plus un augmente le besoin d'appropriation du code et surtout
-la quantité de code à s'approprié, la problématique étant que plus on retarde c'est appropriation plus elle devient difficile.
+la quantité de code à s'approprier, la problématique étant que plus, on retarde l'appropriation plus, elle devient difficile.
 
-Pour la partie spécification, bien qu'intéressante l'utilisation du LLMs n'est pas forcément d'un grand secours car il existe déjà
-des pratiques et des outils permettant de s'assurer d'avoir des spécifications complète qui contraitement au LLMs ne complète pas
-les spécifications de facon autonome. L'utilisation des LLMs ne fait pas disparaitre les besoins de discussions et d'alignement au contraire
-elles les rends plus indispensable, sans forcément le rendre visible puisque parfois les éléments ambigu ou manquant sont compléter
-par le LLM. Le langage naturelle fournit un faux sentiement de compréhension mutuelle qui est déroutant et parfois trompeur, ce qui m'empèche
-de veritablement avoir envie de l'intégrer pleinement à cette étape du développement.
+Pour la partie spécification, pour vérifier que les informations sont complètes l'utilisation du LLMs n'est pas forcément d'un grand secours, car il existe déjà
+des pratiques et des outils permettant de s'assurer d'avoir des spécifications. Ces solutions ont l'avantage de ne pas compléter
+les spécifications de façon autonome. Il est possible que d'autre usage soit possible, mais je ne les aie pas identifiés pour le moment.
 
-Le bilan que je tire est assez mesurer et ne reflète pas nécessairement la révolution promise par l'utilisation des LLMs,
-mais c'est surtout les gains de productivité que je n'ai pas observé, globalement pour garder la même compréhension du projet
-j'ai eu le sentiement de devoir fournir plus d'efforts sans pour autant d'avoir produit des solutions plus intéresante ou plus qualitative
-que ce que j'ai pu faire sans IA. Bien qu'aujourd'hui j'ai une vision plus claire d'ou je trouve utilise l'utilisation des agents IA,
-les hallucinations, les erreurs, les incohérences me conforte surtout la diminution de ma capacité a m'approprier du code
-me pousse cantonner leur utilisation pour des tâches ponctuelle ou alors n'ayant pas d'impact sur ma compréhension du code.
+L'utilisation des LLMs ne fait pas disparaitre les besoins de discussions et d'alignement au contraire, elle les rend plus indispensables,
+sans forcément le rendre visible puisque parfois les éléments ambigu ou manquant sont rajoutés sans consultation par le LLM.
+Le langage naturel fournit un faux sentiment de compréhension mutuelle qui est déroutant et qui peut être trompeur, ce qui m'empêche
+de véritablement avoir envie de l'intégrer pleinement à cette étape du développement.
+
+Le bilan que je tire est assez mesuré et ne reflète pas nécessairement la révolution promise par l'utilisation des LLMs.
+Ce sont surtout les gains de productivité que je n'ai pas observés. Globalement pour garder la même compréhension du projet,
+j'ai eu le sentiment de devoir fournir plus d'efforts sans pour autant d'avoir produit des solutions plus intéresantes ou plus qualitatives.
+
+Bien qu'aujourd'hui, j'ai une vision plus claire d'où et quand je peux utiliser des agents IA, les hallucinations, les erreurs,
+les incohérences et surtout la diminution de ma capacité à m'approprier du code me pousse cantonner leur utilisation
+pour des tâches ponctuelles ou alors n'ayant pas d'impact sur ma compréhension du code.
+
+Je ne pense pas que les LLMs généralistes soient la meilleure solution pour faciliter le développement. Je pense que l'utilisation de modèles
+spécifiques et pas nécéssairement des LLMs pour des tâches bien particulières comme la détection de défaut serait plus utile et plus abordable.
+L'utilisation du langage naturel est plus impressionnante qu'utile dans le contexte du développement. J'espère que l'écosystème se diversifiera
+pour offrir des outils plus utiles à l'avenir.
