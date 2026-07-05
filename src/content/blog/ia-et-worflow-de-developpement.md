@@ -216,51 +216,51 @@ ne donnait pas la sensation de tirer la qualité vers le haut, mais nous poussai
 "qualitative". Cette observation, me laisse penser que l'usage des LLMs, n'aura pas forcément été un élément moteur pour
 améliorer la qualité de nos développements.
 
-### Cohérence et biais d’entraînement
-
 Nos tentatives de générer du code ont été la source d'énormément de discussions à propos de nos pratiques et nos standards.
-L'aspect positif est que ça a servi de révélateur de notre manque d'alignement sur certains points. Ça a été l'occasion de
-ré-aborder pas mal de sujets où nous étions alignés sur les principes, mais pas dans le fond. Par exemple les stratégies de
+L'aspect positif est que cela a servi de révélateur de notre manque d'alignement sur certains points. Par exemple les stratégies de
 tests et la répartition entre les tests d'intégration et unitaires, ou la volonté de suivre la pyramide des tests ou le diamant.
+
+### Cohérence et biais d’entraînement
 
 Une génération de code a été particulièrement intéressante et le sujet de beaucoup de réflexions. Sur un des projets nous
 avons la librairie `fp-ts`, et nous essayons d'avoir une approche fonctionnelle dans notre manière d'écrire du code.
 
-Dans ce contexte, la génération n'a pas été cohérente sur la durée. À première vue, le code utilisait bien la librairie fp-ts.
+Dans ce contexte, la génération n'a pas été cohérente sur la durée. À première vue, le code utilisait bien la librairie `fp-ts`.
 Sur la fonction principale, les éléments de la librairie étaient présents (Pipe, Either), mais en explorant le code et notamment
 les fonctions utilisées par notre fonction principale, l'utilisation de la librairie n'était pas constante et on trouvait des if/else
 à la place d'une utilisation des Either.
 
 Ces difficultés à avoir une génération cohérente sur la durée m'ont fait me questionner sur les entraînements des LLMs. Le premier constat est
-que le modèle au début de la génération a utilisé fp-ts, donc il connaît cette librairie et est capable de générer du code
-l'utilisant. Pourtant, la librairie n'a pas été utilisée sur toute la génération malgré une utilisation plutôt équilibrée
-entre les if et les Either dans notre base de code - une recherche avec un grep donnait 281 occurrences de if contre 253 occurrences de Either.
+que le modèle au début de la génération a utilisé `fp-ts`, donc il connaît cette librairie et est capable de générer du code
+l'utilisant. Pourtant, la librairie n'a pas été utilisée sur toute la génération.
 
 Mon hypothèse est que notre capacité à maîtriser la génération de code de façon précise est dépendante de la cohérence de contexte (code, _prompt_, _skills_, etc)
-qui n'est pas facilement maîtrisable, et qu'en plus le contexte n'est pas l'unique élément impactant la génération. Les entraînements et le code généré par exemple
+qui n'est pas facilement maîtrisable et qu'en plus le contexte n'est pas l'unique élément impactant la génération. Les entraînements et le code généré par exemple
 vont aussi impacter la génération et faciliter ou non la production de certains patterns.
 
-Une observation que j’ai faite au cours de ma relativement petite expérience est que le code des applications est généralement
+Une observation que j’ai faite au cours de ma relativement courte expérience est que le code des applications est généralement
 hétérogène. On ne retrouve pas toujours les mêmes patterns sur toutes les parties du code. Parfois parce
 qu’une décision prise à un instant T ne semble plus cohérente à un instant T+1, ou parce que dans un contexte
 donné, une entorse aux règles a été acceptée pour diverses raisons.
 
-Au-delà de cela, les équipes évoluent : des personnes arrivent, des personnes partent, ce qui fait évoluer les pratiques
+Au-delà de cela, les équipes changent : des personnes arrivent, des personnes partent, ce qui fait évoluer les pratiques
 et donc la manière dont le code est écrit. Il existe aussi des contextes où plusieurs équipes différentes partagent une même
-base de code et, en fonction de qui travaille sur quelle partie le code n'est pas homogène et avec le temps les pratiques entre
-les équipes peuvent diverger accentuant ce phénomène.
+base de code et en fonction des équipes les pratiques ne sont pas homogène. Si à l'origine les pratiques sont homogènes,
+sur la durée les pratiques entre les équipes peuvent diverger accentuant ce phénomène.
 
 Cette entropie, cette diversité est naturelle dans le cycle de vie d’un projet. On peut la ralentir (sans la stopper), mais
-cela implique de passer beaucoup de temps à uniformiser le code, et donc moins de temps à délivrer quelque
+cela implique de passer beaucoup de temps à uniformiser le code et donc moins de temps à délivrer quelque
 chose de valeur pour les utilisateurs.
 
-Cette hétérogénéité a un impact sur la cohérence globale du contexte de génération de code. Le code lu par l'agent peut être
+Cette hétérogénéité a je pense un impact sur la cohérence globale du contexte de génération de code. Le code lu par l'agent peut être
 contradictoire avec les instructions du _prompt_ et les standards d'équipe. Si ces incohérences augmentent la probabilité
-que le modèle utilise des patterns différents alors on augmente la probabilité de le faire dériver et donc d'avoir une implémentation
-utilisant les mauvais patterns.
+que le modèle utilise des patterns différents de ceux suggérés dans le _prompt_, alors on augmente la probabilité de le faire en
+utilisant les mauvais patterns. Dans notre contexte malgré une utilisation plutôt équilibrée entre les if/else et les Either
+dans notre base de code - une recherche avec un grep donnait 281 occurrences de if contre 253 occurrences de Either - le code existant
+n'a pas suffi à garder la cohérence dans l'utilisation de librairie.
 
 Mon intuition est que la variété dans le code utilisé pour les entraînements a, d'un côté, permis au modèle de générer du code
-utilisant fp-ts et de l'autre a probablement introduit un biais favorisant l'utilisation d'autres patterns. Les différentes
+utilisant `fp-ts` et de l'autre a probablement introduit un biais favorisant l'utilisation d'autres patterns. Les différentes
 phases d'entraînement (pré-entraînement, apprentissage par renforcement humain, etc.) ont je pense renforcé la probabilité de générer l'utilisation de if/else
 par rapport à l'utilisation du Either. Hypothèse qui me semble raisonnable dans la mesure où, dans les contextes où je ne spécifiais pas
 le type d'implémentation pour les éléments conditionnels, ce sont des ifs qui ont été utilisés et c'est vers des if/else
@@ -269,14 +269,14 @@ de comment les autres entraînements peuvent introduire des biais, notamment l'a
 
 Mon hypothèse me laisse entrevoir deux approches pour avoir une génération cohérente sur la durée. La première est d'utiliser les patterns les plus probables
 d'être produits par le modèle pour qu'en cas de dilution du contexte ou de perte d'attention (pour reprendre des termes plus courants)
-le modèle dérive vers les patterns les plus probables, et je ne sais pas dans quelle mesure c'est quelque chose qu'on peut garantir.
+le modèle dérive vers les patterns les plus probables et je ne sais pas dans quelle mesure c'est quelque chose qu'on peut garantir.
 Et même si c'était le cas, les patterns les plus probables ne sont pas forcément les plus adaptés à différents contextes fonctionnels et techniques.
 On pourrait aussi utiliser un modèle ayant eu un entraînement visant à renforcer la probabilité d'utiliser les patterns qui nous intéressent.
-Ce ne sont pas des informations qu'on a vraiment sur les modèles pour le moment. On peut aussi envisager de prendre le temps
-d'entraîner les modèles nous-mêmes, ou de les fine-tuner, mais j'ai du mal à estimer la complexité de la tâche.
+Malheureuselent ce n'est pas un niveau de détails qu'on peut trouver sur les entrainements des modèles pour le moment. On peut aussi envisager
+de prendre le temps d'entraîner les modèles nous-mêmes, ou de les fine-tuner, mais j'ai du mal à estimer la complexité de la tâche.
 
 La seconde approche serait d'avoir un mécanisme permettant de garder/rafraîchir certains éléments de contexte pour qu'ils ne soient pas "perdus"
-au milieu du contexte (dans notre cas, l'utilisation de fp-ts) durant la génération. Pour le moment, nous n'avons pas trouvé de moyen de le faire,
+au milieu du contexte (dans notre cas, l'utilisation de `fp-ts`) durant la génération. Pour le moment, nous n'avons pas trouvé de moyen de le faire,
 et réduire la taille de nos itérations n'a pas été une solution suffisante, j'ai constaté des dérives sur des générations d'implémentation
 d'une trentaine de lignes de code.
 
