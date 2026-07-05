@@ -25,7 +25,7 @@ du développement, et les réflexions sur les raisons des résultats que nous av
 
 ## Table of contents
 
-### Contexte
+## Contexte
 
 Pour cette expérimentation, j'ai travaillé avec une équipe sur plusieurs composants d'une application en microservices de gestion de commandes.
 
@@ -33,8 +33,8 @@ Les services sont développés en TypeScript, avec parfois une approche fonction
 orientée objet, à chaque fois dans les limites de ce que permet le langage. L'équipe n'a pas initié tous les microservices dont
 elle a la responsabilité, certains ont été récupérés au fil du temps. Par conséquent, l'équipe n'a pas le même niveau d'expertise
 sur tous les services qu'elle maintient. L'architecture peut varier entre certains microservices, mais il y a généralement
-une volonté de faire une séparation entre infrastructure et logique "métier", mais on trouve une grande variété dans les patterns
-et dans les solutions qu'on trouve dans le code.
+une volonté de faire une séparation entre infrastructure et logique "métier", bien qu'il y ait de la variété dans les patterns
+et leurs implémentations dans le code.
 
 Côté IA, nous avons utilisé Claude Code avec le modèle **Sonnet 4.6**. Nous nous en sommes servis pour générer des tests,
 produire du code, rédiger de la documentation, questionner certaines idées d’implémentation, faire des revues de code,
@@ -47,15 +47,15 @@ nécessaires à l'exécution d'une tâche spécifique par un LLM. Le but étant 
 Nous avons utilisé des _skills_ comme [grill-with-docs](https://www.aihero.dev/grill-with-docs), qui a pour but de nous aider à
 construire des spécifications (en essayant de réduire l'aspect conciliant du LLM) avant de se lancer dans la génération de code.
 
-### Spécifications
+## Spécifications
 
 Pour chaque fonctionnalité, notre premier objectif était de clarifier les spécifications en itérant avec Claude Code. Ces clarifications contenaient
 du contexte sur la fonctionnalité (une description de la fonctionnalité et de son contexte d'utilisation) et une liste d'éléments
-à tester pour s'assurer d'avoir bien implémenté la fonctionnalité. Tout ce contexte était ensuite écrit dans un fichier
+à tester pour s'assurer d'avoir bien implémenté la fonctionnalité. Tout ce contexte était ensuite écrit dans un fichier de spécifications en
 markdown.
 
 Ces itérations ont mis en lumière des règles fonctionnelles implicites à plusieurs reprises, notamment autour de la gestion des
-permissions. Ce point mérite d’être souligné car ces tickets avaient déjà été travaillés lors d’ateliers _tres amigos_. Malgré
+permissions. Ce point mérite d’être souligné, car ces tickets avaient déjà été travaillés lors d’ateliers _tres amigos_. Malgré
 ces ateliers moi et mes collègues avons à plusieurs reprises identifié des éléments de contexte manquants (comme des noms pour certains états par exemple).
 Dans certains cas, où des éléments de contexte manquaient, le LLM générait des hypothèses et créaient du contexte de façon
 autonome. Ces éléments étaient faux et ne correspondaient pas à la réalité métier de la fonctionnalité. La problématique étant que
@@ -87,7 +87,7 @@ les dérives et hallucinations, sans pourtant réussir à aller jusqu'à les fai
 
 Bien que les interactions avec le modèle aient parfois été utiles pour faire émerger certains angles morts, elles n’ont pas remplacé
 la valeur des échanges entre développeurs, QA et PO. L'atelier _tres amigos_ ou même le BDD produisent une compréhension plus fine
-de la fonctionnalité. Ces pratiques permettent de construire progressivement une compréhension du besoin. Ce sont les échanges
+des fonctionnalités. Ces pratiques permettent de construire progressivement une compréhension du besoin. Ce sont les échanges
 dans ces pratiques qui permettent de construire cette compréhension partagée du contexte métier. Il arrive parfois qu'il y ait
 des incompréhensions et c'est naturel, mais les échanges permettent d'apprendre et de partager.
 
@@ -96,21 +96,23 @@ intéressant, il ne produit pas de lui-même de compréhension partagée. Notre 
 avant tout d'enrichir le contexte disponible pour orienter le modèle vers certaines réponses plutôt que d’autres. Dans l'approche
 avec LLMs, on essaye en réalité de formuler un contexte suffisamment précis pour augmenter les probabilités de faire produire
 par le LLM un résultat cohérent. On cherche via le contexte à dominer l'aspect probabiliste des réponses et pas à construire
-une compréhension partagée. Cette distinction dans l'intention me semble importante, puisque pour avoir une réponse pertinente,
-il n'y a pas nécessité de construire une compréhension partagée. Il est possible d'avoir une réponse cohérente avec une compréhension
-d'un besoin erronée.
+une compréhension partagée. Cette distinction dans l'intention me semble importante, puisque pour avoir une réponse acceptable,
+il n'y a pas nécessité de construire une compréhension partagée. Tout comme il est possible d'avoir une réponse acceptable avec
+une compréhension partielle d'un besoin.
 
 Le dernier point que je tiens à souligner c'est l’usage du langage naturel par le LLM. À plusieurs reprises le LLM a reformulé
-nos propos dans ses réponses, donnant une fausse impression de compréhension. Je me demande si ce mimétisme avec des échanges
+nos propos dans ses réponses, donnant une fausse impression de compréhension. Je me demande si ce mimétisme des échanges
 humains n'a pas tendance à nous laisser croire qu'on construit cette compréhension mutuelle alors que ce n'est pas la mécanique
 sur laquelle reposent les LLMs. L'utilisation de _skills_ et de phrases comme "Demande toujours avant",
 "Ne fais pas X", ont tendance à me laisser penser que ça peut être le cas, et ont tendance à me faire baisser ma garde quant
 au résultat produit par les LLMs.
 
 Si à première vue, il peut sembler que les LLMs peuvent grandement faciliter cette étape du développement, c'est prendre
-le risque d'appauvrir les échanges et perdre la compréhension partagée qu'on cherche à construire, et ce, sans s'en rendre compte.
+le risque d'appauvrir les échanges et perdre la compréhension partagée qu'on cherche à construire sans s'en rendre compte.
+Contrairement à ce qu'on peut penser, dans ce contexte les LLMs ne font pas disparaitre le besoin d'échange entre les personnes
+de l'équipe.
 
-### Implémentations
+## Implémentations
 
 Une fois satisfait des spécifications, nous nous sommes lancés dans la génération du code. La démarche de l'équipe était
 de lancer la génération à partir des spécifications et ensuite d'itérer pour faire des corrections.
@@ -156,7 +158,7 @@ On a eu cette approche à plusieurs reprises, personnellement, j'ai trouvé cett
 d'être moins passif dans la production de code. Le contexte généré par Claude n'était pas toujours pertinent et parfois
 c'étaient des généralisations de règles vraies localement mais pas sur toute la base de code.
 
-#### Révision du workflow
+### Révision du workflow
 
 Le bilan de nos premières générations n'était pas satisfaisant de notre point de vue. Lors des générations suivantes, nous avons essayé
 de revoir notre _workflow_, premièrement nous avons décidé de découper un peu mieux le contexte fourni au LLM en ayant plusieurs
@@ -185,7 +187,7 @@ On a aussi questionné notre approche, en découpant la génération en plus pet
 en plus petits cas d'utilisation et de générer le code de ces cas d'utilisation par étape. Le but étant de diminuer la complexité
 de la tâche et la quantité de code généré pour revoir efficacement le code et détecter les dérives plus tôt.
 
-#### Deuxième bilan
+### Deuxième bilan
 
 Une fois notre nouveau _workflow_ défini, nous avons repris le développement de fonctionnalité en utilisant Claude. Malgré
 tous les efforts pour rendre explicites beaucoup de nos pratiques et nos choix et l'approche avec des itérations plus
@@ -207,7 +209,7 @@ une quantité importante de correction et de relecture.
 
 Une observation complémentaire que nous avons partagée en équipe : parfois, sur des problèmes assez simples et non critiques, notre niveau de motivation pour les résoudre était assez bas. La capacité des LLM à produire des solutions moyennes (acceptables, mais pas exemptes de défauts) ne donnait pas envie d’accorder du temps à certains problèmes, ce qui nous demandait parfois un effort plus grand qu’à l’accoutumé.
 
-#### Cohérence et biais d’entraînement
+### Cohérence et biais d’entraînement
 
 Nos tentatives de générer du code ont été la source d'énormément de discussions à propos de nos pratiques et nos standards.
 L'aspect positif est que ça a servi de révélateur de notre manque d'alignement sur certains points. Ça a été l'occasion de
@@ -271,7 +273,7 @@ au milieu du contexte (dans notre cas, l'utilisation de fp-ts) durant la génér
 et réduire la taille de nos itérations n'a pas été une solution suffisante, j'ai constaté des dérives sur des générations d'implémentation
 d'une trentaine de lignes de code.
 
-#### Reprise de projet et génération
+### Reprise de projet et génération
 
 Une fonctionnalité que j'ai développée en _pair programming_ devait être implémentée dans un service ayant été initié par une autre équipe.
 Ce développement a été l'occasion d'utiliser la génération de code en ayant une connaissance technique et fonctionnelle partielle du service.
@@ -344,7 +346,7 @@ Personnellement, je trouve que c’est une manière intéressante d’aborder l�
 leur force et en essayant de les utiliser dans un contexte adapté. Les mêmes caractéristiques peuvent produire des effets
 opposés selon le contexte.
 
-### Revues de code
+## Revues de code
 
 Si à l'origine je ne suis pas particulièrement convaincu par l'utilisation des LLMs pour faire les revues de code, les résultats
 sur la détection de la fuite mémoire m'ont poussé à tester une nouvelle fois les LLMs sur les revues de code.
