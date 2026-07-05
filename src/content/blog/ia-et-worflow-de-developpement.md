@@ -355,20 +355,20 @@ opposés selon le contexte.
 
 ## Revues de code
 
-Si à l'origine je ne suis pas particulièrement convaincu par l'utilisation des LLMs pour faire les revues de code, les résultats
+Si à l'origine, je ne suis pas particulièrement convaincu par l'utilisation des LLMs pour faire les revues de code, les résultats
 sur la détection de la fuite mémoire m'ont poussé à tester une nouvelle fois les LLMs sur les revues de code.
 
-Le fonctionnement pour les revues était, quand le document était présent, d'utiliser le fichier de spécifications construit
+Notre fonctionnement pour les revues était, quand le document était présent d'utiliser le fichier de spécifications construit
 en première étape du _workflow_ et de lancer la revue de code sur la branche git contenant les modifications.
 Si effectivement l'agent a produit des revues en détectant des défauts, les résultats sont restés discutables. Le LLM a détecté
 des erreurs de type qui n'étaient pas attrapées par le langage (mais non cassantes), des incohérences de nommage, et certains
 bugs. Les revues sont restées assez superficielles. Parfois, malgré le fichier de spécifications encadrant les modifications
 et spécifiant que l'implémentation serait partielle, l'analyse du LLM donnait comme retour que l'implémentation était incomplète.
-Il n'y a pas eu de retours structurants sur les défauts de design existants ou introduits, ni sur les tests qui n'étaient pas toujours complets ou corrects. Les revues ont été assez insatisfaisantes : en se concentrant uniquement
+Il n'y a pas eu de retours structurants sur les défauts de design existants ou introduits, ni sur les tests qui n'étaient pas
+toujours complets ou corrects. Les revues ont été assez insatisfaisantes. Le point que je retiens, c'est qu'en se concentrant uniquement
 sur les éléments remontés par le LLM, le code n'aurait pas été acceptable par rapport aux standards de l'équipe.
 
-Pour éprouver un peu plus les LLMs, j'ai décidé de les tester sur du code ayant des défauts de design que j'avais déjà identifiés
-pour voir si l'analyse serait plus intéressante.
+Pour éprouver un peu plus cet usage, j'ai décidé de les tester les revues sur du code ayant des défauts de design que j'avais déjà identifiés.
 Pour une fonctionnalité, nous avons dû faire évoluer la gestion des rôles et des permissions de notre application. Le code de notre application
 avait plusieurs défauts, notamment plusieurs niveaux d'indirection qui rendaient complexe la compréhension des rôles, ainsi qu'un couplage fort dans la création des rôles
 reposant sur l'hypothèse que le même rôle dans plusieurs filiales aurait toujours les mêmes permissions. Cette hypothèse s'est
@@ -381,45 +381,52 @@ capitaliser sur le couplage existant.
 L'idée était de lancer les revues sur les deux branches, de comparer les résultats et de voir ce que remontait le LLM.
 Dans les deux cas, ce qui a été remonté par le LLM était que les implémentations introduisaient une incohérence dans la manière de
 gérer les rôles (le reste des retours restant encore une fois superficiel). Ce qui est objectivement vrai. C'est intéressant de noter que le LLM
-n'a pas analysé ces modifications comme des tentatives de gérer des erreurs de design ou de compréhension métier, qui rendaient les
+n'a pas analysé ces modifications comme des tentatives de gérer des erreurs de design, qui rendaient les
 évolutions du code plus complexes en créant du couplage. L'analyse n'a pas déterminé que ces modifications étaient volontaires.
-Le code n'est pas toujours suffisant pour exprimer l'intention de certaines modifications. Que ce soit pour un LLM ou une personne, connaître
-l'intention du développeur n'est jamais évidente en se basant uniquement sur le code. Généralement, quand je me lance sur ce genre de sujet,
+
+Le code n'est pas toujours suffisant pour exprimer l'intention de certaines modifications. Que ce soit pour un LLM ou une personne, comprendre
+l'intention du développeur n'est jamais évident en se basant uniquement sur le code. Généralement, quand je me lance sur ce genre de sujet,
 j'ai tendance à discuter d'abord avec des collègues pour voir ce qu'ils pensent de la solution et s'il y a bien un problème.
 Les revues sont donc plus une occasion de challenger l'implémentation que la direction prise pour l'implémentation.
-La revue du LLM n'a pas été aussi intéressante, puisque le LLM s'est contenté de labelliser ces modifications avec un niveau de criticité HIGH.
+La revue du LLM n'a pas été aussi intéressante, puisque le LLM s'est contenté de labelliser ces modifications avec un niveau de criticité important.
+
 Cette introduction d'une forme de duplication n'a pas été détectée comme une tentative d'adresser un problème de design.
 Le LLM a privilégié la cohérence par rapport aux corrections apportées, ce qui peut être une position acceptable quand c'est
-un choix conscient. La seconde observation que je fais, c'est que le LLM a soulevé des points, mais pas tous, et cette revue est incomplète ;
-elle n'est donc pas suffisante pour prendre la décision à laquelle une revue est censée répondre : « Est-ce que je suis d'accord pour maintenir
+un choix conscient. La seconde observation que je fais, c'est que le LLM a soulevé des défauts, mais pas tous et cette revue est incomplète.
+Elle n'est donc pas suffisante pour prendre la décision à laquelle une revue est censée répondre : « Est-ce que je suis d'accord pour maintenir
 cette version du code en production ? »
-C'est, selon moi, le problème le plus important : dans ce contexte, je ne veux pas réduire un espace de recherche, je veux détecter tous les défauts
+
+C'est, selon moi, le problème le plus important, dans ce contexte, je ne veux pas réduire un espace de recherche, je veux détecter tous les défauts
 potentiels, pas nécessairement tous les adresser, mais en avoir conscience. Faire uniquement une revue via un LLM ne me permet pas d'avoir ce niveau
 de compréhension du code. Il y a un parallèle intéressant à faire avec les revues faites sur GitHub ou GitLab, qui mettent en évidence
-uniquement les changements (diff changes). En se concentrant uniquement sur le changement, on peut ne pas voir comment les changements
-impactent le code globalement, et c'est pour ça que régulièrement en revue on affiche un peu plus de code que ce qui est montré par les diff changes.
-C'est le même problème si on se concentre uniquement sur les problèmes remontés par le LLM. Le dernier point que j'aborderais,
-c'est qu'en fonction de la maturité technique des personnes, elles pourraient être amenées à appliquer les modifications suggérées par le LLM
-sans se poser de questions, notamment avec la facilité qu'on a à demander à un LLM de faire des modifications, et comme je l'ai évoqué
-plus tôt, toutes les suggestions du LLM ne sont pas pertinentes.
+uniquement les changements (**diff-changes**). En se concentrant uniquement sur le changement, on peut ne pas voir comment les changements
+impactent le code globalement et c'est pour ça que régulièrement en revue, on affiche un peu plus de code que ce qui est montré par les **diff-changes**.
+C'est le même problème ici, en se concentrant uniquement sur les éléments remontés par le LLM on peut rater des choses importantes.
 
-Pour moi, la revue de code est un processus assez subjectif, dépendant des pratiques d’équipe, de la manière de gérer et de construire les rôles,
-et du contexte technique et métier. Il n’existe pas toujours de réponse objectivement meilleure. Bien qu’on puisse être d'accord sur certains
+Le dernier point que j'aborderais, c'est qu'en fonction de la maturité technique des personnes, elles pourraient être amenées
+à appliquer les modifications suggérées par le LLM sans se poser de questions, notamment avec la facilité qu'on a à demander
+à un LLM de faire des modifications et comme je l'ai évoqué plus tôt, toutes les suggestions du LLM ne sont pas pertinentes.
+
+Pour moi, la revue de code est un processus assez subjectif, dépendant des pratiques d’équipe et du contexte technique et métier.
+Il n’existe pas toujours de réponse objectivement meilleure. Bien qu’on puisse être d'accord sur certains
 principes de qualité, l’interprétation de ces principes varie en fonction des personnes et des équipes. Un exemple que je
 trouve parlant est la tension entre les notions de couplage et de duplication. S'il y a plus ou moins un consensus pour
-dire que le couplage est risqué, la duplication n'est pas toujours vue comme un moyen de réduire le couplage (DRY). On peut
+dire que le couplage est risqué, la duplication (DRY) n'est pas toujours vue comme un moyen de réduire le couplage. On peut
 aussi accepter des choses contradictoires dans le code en fonction des modules et des intentions. Tous ces éléments peuvent
-amener du bruit dans l’analyse d’un LLM, et le bruit peut nuire à notre capacité à relire le code et devenir contre-productif.
-La revue a aussi d’autres objectifs. Revoir le code, c’est aussi se l’approprier ; automatiser la revue, c'est augmenter la dette
-cognitive. Les revues sont aussi l’opportunité de pointer des sujets sur lesquels l’équipe n’est pas alignée.  
-En prenant en compte tous ces paramètres, automatiser les revues ne me semble pas forcément une approche intéressante.
+amener du bruit dans l’analyse d’un LLM et le bruit peut nuire à notre capacité à relire le code et devenir contre-productif.
+
+La revue a aussi d’autres objectifs. Revoir le code, c’est aussi se l’approprier, automatiser la revue, c'est augmenter la dette
+cognitive. Les revues sont aussi l’opportunité de pointer des sujets sur lesquels l’équipe n’est pas alignée. En prenant en
+compte tous ces paramètres, automatiser les revues ne me semble pas forcément une approche intéressante.
 
 Une autre question intéressante est l’intégration des LLMs dans les pipelines CI/CD. L’utilisation dans les pipelines soulève
 deux problèmes : le coût et la stabilité. La tarification des LLMs ne me semble pas permettre de lancer des pipelines de manière
 régulière en s’appuyant sur un modèle fonctionnant avec un cloud. Même dans le cas où ce serait possible, le réseau et le non-déterminisme
-des résultats rendraient la pipeline peu fiable. On peut se demander si faire tourner un modèle localement dans la pipeline est intéressant,
-mais généralement les machines qui font tourner les pipelines ne sont pas forcément très performantes, pour des raisons de coût. Ces machines
-ne permettraient probablement pas de faire tourner un modèle localement, et cela ne réglerait pas les problèmes de déterminisme.
+des résultats rendraient la pipeline peu fiable.
+
+On peut se demander si faire tourner un modèle localement dans la pipeline est intéressant,
+mais généralement les machines qui font tourner les pipelines ne sont pas très performantes, pour des raisons de coût. Ces machines
+ne permettraient probablement pas de faire tourner un modèle localement et cela ne réglerait pas les problèmes de déterminisme.
 
 En revanche, une alternative plus réaliste serait l’utilisation de modèles spécialisés, entraînés sur des tâches précises comme la
 détection de fuites mémoire ou d’anomalies. Ces modèles seraient plus légers, potentiellement exécutables localement, sans forcément
@@ -427,7 +434,7 @@ nécessiter une exécution à chaque pipeline.
 
 ### Conclusion
 
-Ces quelques semaines de tests ont été riches d'ensignement sur l'utilisation des LLMs. Ce que je constate, c'est que fonction
+Ces quelques semaines de tests ont été riches d'enseignement sur l'utilisation des LLMs. Ce que je constate, c'est que fonction
 de l'exercice et surtout de l'exigence attendue l'utilisation d'un LLMs peut passer de pratique à contre productive. Ces expériences
 m'ont permis de formaliser ces cas d'utilisations. Les tâches d'analyse statique pour de la recherche sur des éléments spécifique,
 (fuites mémoires, etc) peuvent bénéficier de l'utilisation d'un LLMs, puisque qu'il est possible d'orienter les recherches.
