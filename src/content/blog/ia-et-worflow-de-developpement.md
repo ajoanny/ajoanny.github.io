@@ -320,7 +320,7 @@ produire des erreurs _out of memory_.
 De manière assez classique, nous avons choisi d'analyser les déploiements effectués au moment où la fuite est apparue
 pour identifier la modification responsable de la fuite. Nous avons identifié plusieurs éléments suspects et c'est l’introduction
 d’une nouvelle librairie qui nous a semblé la piste la plus intéressante. Nous avons essayé de reproduire le problème en local,
-sans succès. La librairie étant développée en interne et relativement petite, nous avons décidé de lire le code afin
+sans succès. La librairie étant développée en interne et relativement petite, nous avons décidé de lire son code afin
 d’identifier l’origine de la fuite.
 
 En parallèle, nous avons utilisé Claude Code pour faire une analyse statique du code de la librairie. Cette analyse a
@@ -333,23 +333,21 @@ sans jamais les enlever.
 potentielle. L’idée était d’estimer le temps nécessaire pour faire crasher l’application avec cette fuite et notre trafic.
 Nous avons essayé d’utiliser Claude pour faire cette estimation, mais n’étant pas très convaincus par la fiabilité du résultat,
 nous avons modifié le code de notre application pour logger la quantité d’éléments dans la HashMap afin d’établir la corrélation.
-Après quelques jours on a réussi à établir la corrélation avec la fuite et les personnes maintenant la librairie ont
+Après quelques jours, nous avons réussi à établir la corrélation avec la fuite et les personnes maintenant la librairie ont
 corrigé la fuite.
 
 Ce contexte montre une utilisation des LLM comme outil d’analyse intéressante. Il a été utile pour limiter notre espace
 d’exploration, sans forcément avoir des attentes fortes sur la fiabilité. L’interprétation restant humaine, cette approche
-permet de réduire la nécessité d’avoir une réponse exhaustive ou parfaitement fiable, et c’est ce qui rend l’utilisation
+permet de réduire la nécessité d’avoir une réponse exhaustive ou parfaitement fiable et c’est ce qui rend l’utilisation
 du LLM intéressante pour moi.
 
-Ce fonctionnement est intéressant à mettre en contraste avec la génération de code. Comme je l’évoquais précédemment,
-la diversité dans le corpus d’entraînement et la nature probabiliste des LLM peuvent rendre difficile la génération de patterns
-spécifiques ou sous-représentés. La diversité des possibilités peut réduire la précision du LLM.
-
-Dans le cas de l’analyse statique, mon intuition est que les LLMs, et peut-être plus spécifiquement les réseaux de neurones,
-sont particulièrement efficaces pour reconnaître des patterns. Avec ce prisme, un corpus d’entraînement large va augmenter
-la capacité du modèle à reconnaître un pattern dans des situations variées et donc augmenter sa capacité à les identifier.
-Les limites liées à un corpus hétérogène et à la nature probabiliste dans le cadre de la génération deviennent un atout dans
-un contexte d’analyse et de reconnaissance de patterns.
+Ce fonctionnement est intéressant à mettre en contraste avec la génération de code. Les limites que je soulignais comme la nature
+probabiliste des LLM, les biais dans les entrainements qui rendent précaire la génération de code ne sont pas forcément
+problématique dans cet exercice. Dans le cas de l’analyse statique, mon intuition est que les LLMs et peut-être plus
+spécifiquement les réseaux de neurones, sont particulièrement efficaces pour reconnaître des patterns. Avec ce prisme,
+un corpus d’entraînement large et varié va augmenter la capacité du modèle à reconnaître un pattern dans des situations différentes
+et donc augmenter sa capacité à les identifier. Les limites liées à un corpus hétérogène et à la nature probabiliste dans
+le cadre de la génération deviennent un atout dans un contexte d’analyse et de reconnaissance de patterns.
 
 Personnellement, je trouve que c’est une manière intéressante d’aborder l’usage de ces outils en comprenant ce qui fait
 leur force et en essayant de les utiliser dans un contexte adapté. Les mêmes caractéristiques peuvent produire des effets
