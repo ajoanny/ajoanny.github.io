@@ -1,6 +1,6 @@
 ---
 title: IA et workflow de développement
-pubDatetime: 2026-06-18
+pubDatetime: 2026-07-XX
 featured: false
 draft: false
 tags:
