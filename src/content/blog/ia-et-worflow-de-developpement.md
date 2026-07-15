@@ -220,6 +220,17 @@ Nos tentatives de générer du code ont été la source d'énormément de discus
 L'aspect positif est que cela a servi de révélateur de notre manque d'alignement sur certains points. Par exemple les stratégies de
 tests et la répartition entre les tests d'intégration et unitaires, ou la volonté de suivre la pyramide des tests ou le diamant.
 
+Une de mes intuitions par rapport à l’utilisation de l'IA était de potentiellement pouvoir faire disparaître le biais du coût irrécupérable
+(sunk cost fallacy). Si la génération de code était simple et rapidement, alors je pensais que le jeter serait tout aussi facile.
+Pendant mes expérimentations, c'est un autre biais que j'ai observé, notamment lors des corrections et des rattrapages que nous tentions
+de faire réaliser à l'agent. Si l'effort pour générer du code est relativement faible, voire quasiment nul, j'ai observé que nous avions
+du mal à consacrer des efforts aux corrections et aux relectures. La conséquence étant que nous avons eu tendance à accepter des implémentations
+discutables, qui en temps normal n'auraient pas passé l'étape de revue de code. C'est cette capacité à générer des résultats « moyens » mais
+« acceptables » facilement, qui par comparaison donne l'impression d'un coût démesuré aux corrections. Ce biais de perception du coût apporte
+à une forme d'érosion des standards de qualité qu'il serait intéressant d'observer sur le long terme. Pour éviter ce biais, je pense qu'il
+est important d'avoir pendant les revues des personnes n'ayant pas participé à la génération du code. Ce mécanisme vient lui aussi renforcer
+l’utilité des revue de code.
+
 ### Cohérence et biais d’entraînement
 
 Une génération de code a été particulièrement intéressante et le sujet de beaucoup de réflexions. Sur un des projets nous
