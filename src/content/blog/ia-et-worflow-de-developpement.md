@@ -265,7 +265,7 @@ chose de valeur pour les utilisateurs.
 
 Cette hétérogénéité a je pense un impact sur la cohérence globale du contexte de génération de code. Le code lu par l'agent peut être
 contradictoire avec les instructions du _prompt_ et les standards d'équipe. Si ces incohérences augmentent la probabilité
-que le modèle utilise des patterns différents de ceux suggérés dans le _prompt_, alors on augmente la probabilité de le faire en
+que le modèle utilise des patterns différents de ceux suggérés dans le _prompt_, alors on augmente la probabilité de d'avoir une génération
 utilisant les mauvais patterns. Dans notre contexte malgré une utilisation plutôt équilibrée entre les if/else et les Either
 dans notre base de code - une recherche avec un grep donnait 281 occurrences de if contre 253 occurrences de Either - le code existant
 n'a pas suffi à garder la cohérence dans l'utilisation de librairie.
@@ -280,7 +280,7 @@ de comment les autres entraînements peuvent introduire des biais, notamment l'a
 
 Mon hypothèse me laisse entrevoir deux approches pour avoir une génération cohérente sur la durée. La première est d'utiliser les patterns les plus probables
 d'être produits par le modèle pour qu'en cas de dilution du contexte ou de perte d'attention (pour reprendre des termes plus courants)
-le modèle dérive vers les patterns les plus probables et je ne sais pas dans quelle mesure c'est quelque chose qu'on peut garantir.
+le modèle dérive vers les patterns les plus probables mais, je ne sais pas dans quelle mesure c'est quelque chose qu'on peut garantir.
 Et même si c'était le cas, les patterns les plus probables ne sont pas forcément les plus adaptés à différents contextes fonctionnels et techniques.
 On pourrait aussi utiliser un modèle ayant eu un entraînement visant à renforcer la probabilité d'utiliser les patterns qui nous intéressent.
 Malheureusement ce n'est pas un niveau de détails qu'on peut trouver sur les entrainements des modèles pour le moment. On peut aussi envisager
