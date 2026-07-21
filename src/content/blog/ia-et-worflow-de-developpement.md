@@ -18,7 +18,7 @@ la génération de tests, la pratique du TDD et le refactoring. Même sur des su
 en termes de fiabilité, de qualité et de répétabilité.
 
 J'ai eu cette fois l'opportunité de tester l'utilisation des LLM sur un projet en production. Ce changement de contexte a
-été l'occasion de valider la pertinence de mes observations précédentes tout en ayant un cadre plus proche de la réalité.
+été l'occasion de valider la pertinence de mes observations précédentes tout en ayant un cadre encré dans la réalité.
 
 À travers cet article, je cherche à partager les expériences faites avec mes collègues sur l'usage des LLM dans le cadre
 du développement, et les réflexions sur les raisons des résultats que nous avons obtenus.
@@ -202,7 +202,7 @@ Le second point que je veux soulever, c'est que peu importe l'approche les tests
 que le code généré est fonctionnel, n'était pas fiable. Ils étaient régulièrement incomplets et ne testaient pas toujours
 correctement le code. Parfois, il manquait des vérifications, dans d'autres cas les tests vérifiaient plusieurs choses.
 Cette particularité fait qu'utiliser un indicateur comme la couverture de test nous aurait induit en erreur, car le code était bien exécuté
-dans les tests, mais il n'y avait pas les assertions permettant de vérifier le comportement du code.
+dans les tests, mais il n'y avait pas toujours les bonnes assertions permettant de vérifier le comportement du code.
 Pendant une de ces petites itérations, nous avons ajouté l'utilisation d'un logger, le LLM en générant le code a ajouté
 des tests sur l'utilisation du logger. Ce comportement est un bon exemple de pourquoi, les tests ne sont pas fiables. Le fait
 que le logger ne soit appelé n'est pas une indication que le code fonctionne et tester les logger n'est pas en adéquation
