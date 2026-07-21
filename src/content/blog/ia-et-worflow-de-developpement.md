@@ -353,7 +353,7 @@ permet de réduire la nécessité d’avoir une réponse exhaustive ou parfaitem
 du LLM intéressante pour moi.
 
 Ce fonctionnement est intéressant à mettre en contraste avec la génération de code. Les limites que je soulignais comme la nature
-probabiliste des LLM, les biais dans les entrainements qui rendent précaire la génération de code ne sont pas forcément
+probabiliste des LLM, les biais dans les entraînements qui rendent précaire la génération de code ne sont pas forcément
 problématique dans cet exercice. Dans le cas de l’analyse statique, mon intuition est que les LLMs et peut-être plus
 spécifiquement les réseaux de neurones, sont particulièrement efficaces pour reconnaître des patterns. Avec ce prisme,
 un corpus d’entraînement large et varié va augmenter la capacité du modèle à reconnaître un pattern dans des situations différentes
@@ -467,7 +467,7 @@ Pour la partie spécification, pour vérifier que les informations sont complèt
 des pratiques et des outils permettant de s’assurer d’avoir des spécifications. Ces solutions ont l’avantage de ne pas compléter
 les spécifications de façon autonome. Il est possible que d’autres usages soient possibles, mais je ne les ai pas identifiés pour le moment.
 
-L’utilisation des LLM ne fait pas disparaître les besoins de discussions et d’alignement ; au contraire, elle les rend plus indispensables,
+L’utilisation des LLM ne fait pas disparaître les besoins de discussions et d’alignement au contraire, elle les rend plus indispensables,
 sans forcément le rendre visible puisque parfois les éléments ambigus ou manquants sont rajoutés sans consultation par le LLM.
 Le langage naturel fournit un faux sentiment de compréhension mutuelle qui est déroutant et qui peut être trompeur, ce qui m’empêche
 de véritablement avoir envie de l’intégrer pleinement à cette étape du développement.
