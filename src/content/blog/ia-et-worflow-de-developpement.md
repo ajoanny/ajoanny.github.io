@@ -51,11 +51,12 @@ construire des spécifications (en essayant de réduire l'aspect conciliant du L
 
 Pour chaque fonctionnalité, notre premier objectif était de clarifier les spécifications en itérant avec Claude Code. Ces clarifications contenaient
 du contexte sur la fonctionnalité (une description de la fonctionnalité et de son contexte d'utilisation) et une liste d'éléments
-à tester pour s'assurer d'avoir bien implémenté la fonctionnalité. Tout ce contexte était ensuite écrit dans un fichier de spécifications en
-markdown.
+  à tester pour s'assurer d'avoir bien implémenté la fonctionnalité. Tout ce contexte était ensuite écrit dans un fichier de spécifications en
+  markdown. Les specs produites étaient techniques et fonctionnelles, un fichier avec le langage métier a utiliser était aussi produit et parfois un
+  ADR était ajouté quand cela semblait utile. 
 
 Ces itérations ont mis en lumière des règles fonctionnelles implicites à plusieurs reprises, notamment autour de la gestion des
-permissions. Ce point mérite d’être souligné, car ces tickets avaient déjà été travaillés lors d’ateliers _tres amigos_. Malgré
+permissions. Ce point mérite d’être souligné, car ces tickets avaient déjà été travaillés lors d’ateliers type _tres amigos_. Malgré
 ces ateliers moi et mes collègues avons à plusieurs reprises identifié des éléments de contexte manquants (comme des noms pour certains états par exemple).
 Dans certains cas, où des éléments de contexte manquaient, le LLM générait des hypothèses et créaient du contexte de façon
 autonome. Ces éléments étaient faux et ne correspondaient pas à la réalité métier de la fonctionnalité. La problématique étant que
@@ -151,7 +152,7 @@ les multiples corrections apportées aux éléments de contexte. Toutes ces rép
 Ces moments de frustration ont été le sujet d'un constat partagé avec un collègue: Tenter de décrire la correction en langage
 naturel est fastidieux.
 Le langage naturel étant parfois ambigu, décrire une implémentation n’est pas toujours évident, ce n’est pas un exercice que nous
-faisons régulièrement. Faire une description en langage naturel était parfois plus complexe que l’écriture du code. Dans
+faisons régulièrement. Faire une description en langage naturel sans avoir d'ambiguïté était parfois plus complexe que l’écriture du code. Dans
 certains cas écrire le code devient plus facile que de faire une description en langage naturel. Pour pallier ces difficultés,
 nous avons essayé de faire les corrections à la main et de laisser l'agent analyser les corrections pour en tirer des règles.
 On a eu cette approche à plusieurs reprises, personnellement, j'ai trouvé cette approche amusante et moins frustrante. J'ai apprécié
