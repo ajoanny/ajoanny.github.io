@@ -229,7 +229,7 @@ du mal à consacrer des efforts aux corrections et aux relectures. La conséquen
 discutables, qui en temps normal n'auraient pas passé l'étape de revue de code. C'est cette capacité à générer des résultats « moyens » mais
 « acceptables » facilement, qui par comparaison donne l'impression d'un coût démesuré aux corrections. Ce biais de perception du coût apporte
 à une forme d'érosion des standards de qualité qu'il serait intéressant d'observer sur le long terme. Pour éviter ce biais, je pense qu'il
-est important d'avoir pendant les revues des personnes n'ayant pas participé à la génération du code. Ce mécanisme vient lui aussi renforcer
+est important d'avoir pendant les revues des personnes n'ayant pas participé à la génération du code. Ce biais vient lui aussi renforcer
 l’utilité des revue de code.
 
 ### Cohérence et biais d’entraînement
