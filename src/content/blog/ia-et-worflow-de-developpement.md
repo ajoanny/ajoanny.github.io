@@ -18,7 +18,7 @@ la génération de tests, la pratique du TDD et le refactoring. Même sur des su
 en termes de fiabilité, de qualité et de répétabilité.
 
 J'ai eu cette fois l'opportunité de tester l'utilisation des LLM sur un projet en production. Ce changement de contexte a
-été l'occasion de valider la pertinence de mes observations précédentes tout en ayant un cadre encré dans la réalité.
+été l'occasion de valider la pertinence de mes observations précédentes tout en ayant un cadre ancré dans la réalité.
 
 À travers cet article, je cherche à partager les expériences faites avec mes collègues sur l'usage des LLM dans le cadre
 du développement, et les réflexions sur les raisons des résultats que nous avons obtenus.
