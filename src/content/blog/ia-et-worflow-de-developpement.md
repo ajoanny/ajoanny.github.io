@@ -1,6 +1,6 @@
 ---
 title: IA et workflow de développement
-pubDatetime: 2026-07-XX
+pubDatetime: 2026-07-22
 featured: false
 draft: false
 tags:
@@ -138,7 +138,7 @@ que sont censés offrir les tests.
 Du côté de l'implémentation, les résultats n'ont pas été plus probants, le code généré ne respectant que partiellement les standards
 et pratiques de l'équipe malgré la présence d'instructions dans les différents fichiers de contexte.
 
-Nous avons fait plusieurs itérations pour pousser le LLM dans la direction que nous voulions (reformulation, nouvelle session, correction des skills, corrections manuelles).
+Nous avons fait plusieurs itérations pour pousser le LLM dans la direction que nous voulions (reformulation, prompt de corrections, nouvelle session, correction des skills, corrections manuelles).
 L'observation que je peux faire, c’est que les itérations n’ont pas forcément été un moyen de cadrer le LLM
 pour l'amener là où nous voulions. Il y a eu des dérives à plusieurs reprises, parfois les corrections étaient incomplètes,
 pas les bonnes et surtout pas toujours limitées aux fichiers que nous traitions. On a constaté ces comportements sur différentes
